@@ -1,0 +1,3938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050507" />
+
+  <!-- SEO -->
+  <meta name="description" content="SCTHRA explores the intersections of science, culture, technology, history, research and art. A space for knowledge, discovery and ideas.">
+  <meta name="keywords" content="SCTHRA, science, culture, technology, history, research, art, knowledge, discovery, innovation">
+  <meta name="author" content="SCTHRA">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="application-name" content="SCTHRA">
+
+  <!-- PWA -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- Title -->
+  <title>SCTHRA — Knowledge Without Boundaries</title>
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://scthra.vercel.app/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SCTHRA">
+  <meta property="og:url" content="https://scthra.vercel.app/">
+  <meta property="og:title" content="SCTHRA — Knowledge Without Boundaries">
+  <meta property="og:description" content="Exploring the intersections of science, culture, technology, history, research and art.">
+  <meta property="og:image" content="https://scthra.vercel.app/logo.png">
+  <meta property="og:image:width" content="192">
+  <meta property="og:image:height" content="192">
+  <meta property="og:image:alt" content="SCTHRA logo">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="SCTHRA — Knowledge Without Boundaries">
+  <meta name="twitter:description" content="Science. Culture. Technology. History. Research. Art.">
+  <meta name="twitter:image" content="https://scthra.vercel.app/logo.png">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/logo.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&family=Syne:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #050507;
+      --ink: #f3f2ee;
+      --ink-soft: rgba(243, 242, 238, 0.78);
+      --ink-dim: rgba(243, 242, 238, 0.44);
+      --hairline: rgba(255, 255, 255, 0.11);
+      --accent: #e2b857;
+      --accent-soft: rgba(226, 184, 87, 0.16);
+      --accent-mid: rgba(226, 184, 87, 0.36);
+      --accent-glow: rgba(226, 184, 87, 0.28);
+      --rose: #ff6b8b;
+      --font-editorial: "Instrument Serif", "Cormorant Garamond", Georgia, serif;
+      --font-display: "Syne", sans-serif;
+      --font-sans: "Space Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
+
+    /* Hide scrollbars everywhere except inside the Recommendation Affinity Drawer */
+    * {
+      scrollbar-width: none;
+    }
+
+    *::-webkit-scrollbar {
+      display: none;
+    }
+
+    #affinity-drawer {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.22) transparent;
+    }
+
+    #affinity-drawer::-webkit-scrollbar {
+      display: block;
+      width: 4px;
+      height: 4px;
+    }
+
+    #affinity-drawer::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    #affinity-drawer::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.22);
+      border-radius: 999px;
+    }
+
+    #affinity-drawer::-webkit-scrollbar-thumb:hover {
+      background: var(--accent);
+    }
+
+    /* Evolving Corner Frame Geometry */
+    #corner-frames {
+      position: fixed;
+      inset: 10px;
+      pointer-events: none;
+      z-index: 45;
+      transition: opacity 0.3s ease;
+    }
+
+    body.reading-paused #corner-frames,
+    body.reading-paused #hud-top {
+      opacity: 0.14;
+    }
+
+    .c-mark {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-color: var(--hairline);
+      border-style: solid;
+      transition: width 0.5s ease, height 0.5s ease, border-color 0.45s ease;
+    }
+
+    body[data-evo="2"] .c-mark { width: 22px; height: 22px; border-color: var(--accent-soft); }
+    body[data-evo="3"] .c-mark { width: 32px; height: 32px; border-color: var(--accent-mid); }
+    body[data-evo="4"] .c-mark { width: 44px; height: 44px; border-color: var(--accent); }
+
+    .c-tl { top: 0; left: 0; border-width: 1px 0 0 1px; }
+    .c-tr { top: 0; right: 0; border-width: 1px 1px 0 0; }
+    .c-bl { bottom: 0; left: 0; border-width: 0 0 1px 1px; }
+    .c-br { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+
+    /* Edge-to-Edge 2px Hairline Beat Progress */
+    #top-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      display: flex;
+      gap: 4px;
+      padding: 0 2px;
+      z-index: 60;
+      pointer-events: none;
+    }
+
+    .prog-seg {
+      flex: 1;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.14);
+      overflow: hidden;
+    }
+
+    .prog-fill {
+      width: 0%;
+      height: 100%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+      transition: width 0.06s linear, background-color 0.45s ease, box-shadow 0.45s ease;
+    }
+
+    .prog-seg.done .prog-fill {
+      width: 100%;
+    }
+
+    /* Whisper-Quiet Top-Only HUD (Zero Bottom HUD, Zero Like Counters) */
+    #hud-top {
+      position: fixed;
+      top: max(10px, env(safe-area-inset-top, 10px));
+      left: 0;
+      right: 0;
+      height: 40px;
+      padding: 0 clamp(16px, 3vw, 28px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 50;
+      transition: opacity 0.22s ease;
+    }
+
+    .wordmark {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.24em;
+      color: var(--ink);
+    }
+
+    .stage-tag {
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid var(--accent-mid);
+      background: var(--accent-soft);
+      color: var(--accent);
+      letter-spacing: 0.16em;
+      transition: border-color 0.45s ease, background-color 0.45s ease, color 0.45s ease;
+    }
+
+    .hud-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hud-btn {
+      height: 32px;
+      padding: 0 11px;
+      border-radius: 999px;
+      border: 1px solid var(--hairline);
+      background: rgba(10, 10, 14, 0.62);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: var(--ink-soft);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: border-color 0.45s ease, color 0.45s ease, transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.45s ease;
+    }
+
+    .hud-btn:hover {
+      border-color: var(--accent-mid);
+    }
+
+    .hud-btn:active {
+      transform: scale(0.92);
+    }
+
+    .hud-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .hud-btn.liked {
+      border-color: var(--rose);
+      color: var(--rose);
+      background: rgba(255, 107, 139, 0.14);
+      animation: heartPop 0.38s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
+
+    @keyframes heartPop {
+      0% { transform: scale(1); }
+      45% { transform: scale(1.24); }
+      100% { transform: scale(1); }
+    }
+
+    /* Ephemeral First-Interaction Whisper */
+    #gesture-whisper {
+      position: fixed;
+      top: max(56px, calc(env(safe-area-inset-top, 12px) + 44px));
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      color: var(--ink-dim);
+      background: rgba(10, 10, 14, 0.68);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--hairline);
+      padding: 6px 14px;
+      border-radius: 999px;
+      z-index: 55;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      white-space: nowrap;
+    }
+
+    #gesture-whisper.show {
+      opacity: 1;
+    }
+
+    /* Full-Viewport Scroll-Snap Stream */
+    #stream {
+      width: 100%;
+      height: 100dvh;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+      touch-action: pan-y;
+    }
+
+    .reel {
+      position: relative;
+      width: 100%;
+      height: 100dvh;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: max(54px, env(safe-area-inset-top, 54px)) clamp(16px, 4vw, 48px) max(22px, env(safe-area-inset-bottom, 22px));
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 42%, var(--reel-tint, rgba(226, 184, 87, 0.055)) 0%, var(--bg) 76%);
+    }
+
+    /* Maximized Content Stage */
+    .stage {
+      width: min(94vw, 1080px);
+      max-height: calc(100dvh - 82px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    .stage-kicker {
+      font-family: var(--font-mono);
+      font-size: clamp(9px, 1.3vw, 11px);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: clamp(10px, 2vh, 18px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: color 0.45s ease;
+    }
+
+    .lines-stack {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(10px, 1.8vh, 18px);
+    }
+
+    .reveal-line {
+      opacity: 0;
+      transform: translateY(12px);
+      filter: blur(4px);
+      transition: opacity 0.48s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.48s cubic-bezier(0.16, 1, 0.3, 1),
+                  filter 0.48s cubic-bezier(0.16, 1, 0.3, 1);
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .reveal-line.shown {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    .kw-hl {
+      color: var(--accent);
+      font-style: italic;
+      transition: color 0.45s ease;
+    }
+
+    /* Typography Systems */
+    .typo-editorial .reveal-line:first-child {
+      font-family: var(--font-editorial);
+      font-size: calc(clamp(28px, 4.8vw, 56px) * var(--lead-scale, 1));
+      line-height: 1.14;
+      letter-spacing: -0.01em;
+    }
+    .typo-editorial .reveal-line:not(:first-child) {
+      font-family: var(--font-sans);
+      font-size: clamp(16px, 2.3vw, 25px);
+      line-height: 1.38;
+      color: var(--ink-soft);
+    }
+
+    .typo-display .reveal-line:first-child {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: calc(clamp(24px, 4.1vw, 46px) * var(--lead-scale, 1));
+      line-height: 1.18;
+      letter-spacing: -0.025em;
+    }
+    .typo-display .reveal-line:not(:first-child) {
+      font-family: var(--font-sans);
+      font-size: clamp(16px, 2.2vw, 24px);
+      line-height: 1.38;
+      color: var(--ink-soft);
+    }
+
+    .typo-telemetry .reveal-line:first-child {
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: calc(clamp(22px, 3.6vw, 40px) * var(--lead-scale, 1));
+      line-height: 1.22;
+      letter-spacing: -0.02em;
+    }
+    .typo-telemetry .reveal-line:not(:first-child) {
+      font-family: var(--font-sans);
+      font-size: clamp(15px, 2.1vw, 22px);
+      line-height: 1.38;
+      color: var(--ink-soft);
+    }
+
+    /* Split / Stacked Visual & Text Layout */
+    .visual-beat-wrap {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: clamp(14px, 2.2vh, 24px);
+      align-items: center;
+    }
+
+    @media (min-width: 820px) {
+      .visual-beat-wrap.has-photo {
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: clamp(22px, 3vw, 40px);
+      }
+    }
+
+    /* Uncropped Full-Fit Image Frame + Crisp White Backing for Transparent PNGs */
+    .photo-frame {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid var(--hairline);
+      background: #0c0d12;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .photo-frame.is-png {
+      background: #ffffff;
+      padding: 12px;
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .photo-frame.shown {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .photo-frame img {
+      display: block;
+      width: auto;
+      max-width: 100%;
+      max-height: clamp(210px, 44dvh, 420px);
+      object-fit: contain;
+    }
+
+    @media (min-width: 820px) {
+      .photo-frame img {
+        max-height: clamp(280px, 60dvh, 560px);
+      }
+    }
+
+    /* Data Visualization Cards (Earthquake Map, Market Graph, Flight Radar, Atmosphere) */
+    .data-viz-card {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid var(--hairline);
+      background: rgba(13, 14, 20, 0.88);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .data-viz-card.shown {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .quake-map-wrap {
+      position: relative;
+      width: 100%;
+      height: clamp(195px, 34dvh, 300px);
+      background: #090b10;
+      overflow: hidden;
+    }
+
+    .quake-tiles {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      filter: contrast(1.12) brightness(0.92);
+    }
+
+    .quake-tiles img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .quake-overlay-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .quake-pulse-ring {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: seismicWave 2.4s infinite ease-out;
+    }
+
+    @keyframes seismicWave {
+      0% { transform: scale(0.35); opacity: 0.95; }
+      100% { transform: scale(2.1); opacity: 0; }
+    }
+
+    .market-card-inner {
+      padding: clamp(14px, 2.2vw, 20px);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .market-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-family: var(--font-mono);
+    }
+
+    .market-price {
+      font-size: clamp(20px, 3.2vw, 30px);
+      color: var(--ink);
+    }
+
+    .market-delta {
+      font-size: 12px;
+      letter-spacing: 0.1em;
+    }
+
+    .market-svg {
+      width: 100%;
+      height: clamp(110px, 20dvh, 175px);
+      display: block;
+    }
+
+    .market-foot {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--ink-dim);
+    }
+
+    .telemetry-card {
+      padding: clamp(14px, 2.4vw, 22px);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .telemetry-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      border-top: 1px solid var(--hairline);
+      padding-top: 12px;
+      font-family: var(--font-mono);
+    }
+
+    .tele-cell-label {
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      color: var(--ink-dim);
+      margin-bottom: 4px;
+    }
+
+    .tele-cell-val {
+      font-size: clamp(13px, 2vw, 17px);
+      color: var(--ink);
+    }
+
+    /* 3-Way Directional Swipe-Right Action Rail */
+    #source-edge-glow {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 4px;
+      background: var(--accent);
+      box-shadow: 0 0 24px var(--accent-glow);
+      opacity: 0;
+      z-index: 80;
+      pointer-events: none;
+      transition: opacity 0.15s ease, background-color 0.45s ease, box-shadow 0.45s ease;
+    }
+
+    #swipe-action-rail {
+      position: fixed;
+      top: 50%;
+      left: 16px;
+      transform: translateY(-50%) translateX(-130%);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 85;
+      pointer-events: none;
+      opacity: 0;
+      transition: transform 0.16s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.16s ease;
+    }
+
+    #swipe-action-rail.visible {
+      opacity: 1;
+    }
+
+    .rail-node {
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(10, 11, 16, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--hairline);
+      color: var(--ink-dim);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+    }
+
+    .rail-node.selected {
+      border-color: var(--accent);
+      color: var(--ink);
+      background: rgba(20, 22, 30, 0.96);
+      transform: translateX(8px) scale(1.04);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    .rail-node[data-mode="mute"].selected {
+      border-color: var(--rose);
+      color: var(--rose);
+    }
+
+    /* Action Toast */
+    #action-toast {
+      position: fixed;
+      top: max(60px, calc(env(safe-area-inset-top, 12px) + 48px));
+      left: 50%;
+      transform: translateX(-50%) translateY(-8px);
+      padding: 7px 15px;
+      border-radius: 999px;
+      background: rgba(14, 15, 21, 0.92);
+      border: 1px solid var(--accent);
+      box-shadow: 0 6px 24px var(--accent-glow);
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      z-index: 92;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.45s ease, color 0.45s ease;
+    }
+
+    #action-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Double-Tap Resonance Pulse */
+    .resonance-pulse {
+      position: fixed;
+      width: 96px;
+      height: 96px;
+      margin-left: -48px;
+      margin-top: -48px;
+      border-radius: 50%;
+      border: 1.5px solid var(--rose);
+      box-shadow: 0 0 28px rgba(255, 107, 139, 0.45);
+      pointer-events: none;
+      z-index: 90;
+      animation: pulseExpand 0.68s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes pulseExpand {
+      0% { transform: scale(0.2); opacity: 1; }
+      100% { transform: scale(1.85); opacity: 0; }
+    }
+
+    /* Affinity & Saved Drawer */
+    #drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.66);
+      backdrop-filter: blur(8px);
+      z-index: 95;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    #drawer-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    #affinity-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(100vw, 400px);
+      background: #0b0c10;
+      border-left: 1px solid var(--hairline);
+      z-index: 96;
+      padding: 22px;
+      overflow-y: auto;
+      transform: translateX(100%);
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    #affinity-drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--hairline);
+      margin-bottom: 18px;
+    }
+
+    .bandit-row {
+      margin-bottom: 12px;
+    }
+
+    .bandit-meta {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--ink-soft);
+      margin-bottom: 5px;
+    }
+
+    .bandit-track {
+      height: 3px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .bandit-fill {
+      height: 100%;
+      background: var(--accent);
+      transition: width 0.4s ease, background-color 0.45s ease;
+    }
+
+    .saved-card {
+      padding: 12px;
+      border: 1px solid var(--hairline);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.02);
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .saved-card:hover {
+      border-color: var(--accent);
+    }
+
+    /* Share Card PNG Modal */
+    #share-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 5, 7, 0.86);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index: 98;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      gap: 16px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.24s ease, visibility 0.24s ease;
+    }
+
+    #share-modal.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .share-preview-wrap {
+      max-height: min(68dvh, 620px);
+      max-width: min(90vw, 480px);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--hairline);
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.85);
+      background: #08080b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .share-preview-wrap img {
+      display: block;
+      max-height: min(68dvh, 620px);
+      max-width: 100%;
+      width: auto;
+      height: auto;
+    }
+
+    .share-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .hud-btn.primary-pill {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--ink);
+      padding: 0 16px;
+      height: 36px;
+    }
+
+    /* Bottom Infinite Buffer Waveform */
+    #buffer-sentinel {
+      height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    #buffer-sentinel i {
+      display: block;
+      width: 3px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 2px;
+      animation: waveBar 1s infinite ease-in-out;
+    }
+
+    #buffer-sentinel i:nth-child(2) { animation-delay: 0.15s; }
+    #buffer-sentinel i:nth-child(3) { animation-delay: 0.3s; }
+    #buffer-sentinel i:nth-child(4) { animation-delay: 0.45s; }
+
+    @keyframes waveBar {
+      0%, 100% { height: 6px; opacity: 0.3; }
+      50% { height: 22px; opacity: 1; }
+    }
+
+    /* Boot Handshake Loader */
+    #boot-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      transition: opacity 0.45s ease, visibility 0.45s ease;
+    }
+
+    #boot-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .boot-pulse {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--hairline);
+      border-top-color: var(--accent);
+      animation: spin 0.95s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .boot-text {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      color: var(--ink-dim);
+    }
+
+    .hud-btn:focus-visible, .saved-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+      .reveal-line { filter: none; transform: none; }
+      #stream { scroll-behavior: auto; }
+    }
+    .map-card { max-width: 512px; margin-inline: auto; }
+    .quake-mosaic { position: absolute; left: 50%; top: 50%; width: 768px; height: 768px; display: grid; grid-template-columns: repeat(3, 256px); grid-template-rows: repeat(3, 256px); filter: contrast(1.12) brightness(0.92); }
+    .quake-mosaic img { width: 256px; height: 256px; display: block; }
+    .map-pin { position: absolute; left: 50%; top: 50%; width: 0; height: 0; }
+    .map-pin i { position: absolute; left: -5px; top: -5px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+    .map-pin b { position: absolute; border-radius: 50%; border: 1.5px solid var(--accent); animation: seismicWave 2.4s infinite ease-out; }
+    .map-pin svg { position: absolute; left: -12px; top: -12px; width: 24px; height: 24px; fill: var(--accent); }
+    .market-svg path { vector-effect: non-scaling-stroke; }
+    .map-pin b { left: calc(var(--ring, 60px) / -2); top: calc(var(--ring, 60px) / -2); width: var(--ring, 60px); height: var(--ring, 60px); animation-duration: var(--dur, 2.4s); }
+    .stage > .lines-stack { max-width: 68ch; }
+    .reveal-line:first-child { text-wrap: balance; }
+    .reveal-line:not(:first-child) { text-wrap: pretty; }
+    /* image shape drives layout */
+    @media (min-width: 820px) {
+      .visual-beat-wrap.has-photo.ph-tall { grid-template-columns: 1.3fr 0.7fr; }
+      .visual-beat-wrap.has-photo.ph-tall .photo-frame img { max-height: clamp(320px, 66dvh, 620px); }
+    }
+    /* landscape phones and short windows: put visuals beside the text */
+    @media (orientation: landscape) and (min-width: 600px) and (max-height: 600px) {
+      .visual-beat-wrap.has-photo { grid-template-columns: 1fr 1fr; gap: 24px; }
+      .photo-frame img { max-height: clamp(150px, 62dvh, 420px); }
+      .quake-map-wrap { height: clamp(150px, 52dvh, 260px); }
+      .stage-kicker { margin-bottom: 8px; }
+      .lines-stack { gap: 8px; }
+    }
+    .visual-beat-wrap.has-photo.ph-wide { grid-template-columns: 1fr; }
+    .photo-frame { width: fit-content; max-width: 100%; justify-self: center; }
+    @media (min-width: 820px) {
+      .visual-beat-wrap.has-photo.ph-wide .photo-frame { justify-self: start; }
+    }
+    /* phones in portrait: tall images use the spare height instead of floating small */
+    @media (max-width: 819px) and (orientation: portrait) {
+      .visual-beat-wrap.has-photo.ph-tall .photo-frame img { max-height: clamp(260px, 56dvh, 520px); }
+    }
+    @media (min-width: 820px), (orientation: landscape) and (min-width: 600px) and (max-height: 600px) {
+      .visual-beat-wrap.has-photo:not(.ph-wide) .photo-frame { justify-self: end; }
+    }
+    /* verse typography: poems read as set lines, not headline + body */
+    .typo-verse .reveal-line {
+      font-family: var(--font-editorial);
+      font-size: clamp(21px, 3.6vw, 40px);
+      line-height: 1.24;
+      color: var(--ink);
+    }
+    .typo-verse .reveal-line:first-child:last-child {
+      font-size: calc(clamp(30px, 5.4vw, 64px) * var(--lead-scale, 1));
+      font-style: italic;
+      line-height: 1.1;
+    }
+    .typo-verse .lines-stack { gap: clamp(6px, 1.2vh, 12px); }
+    /* source toggles */
+    .chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .hud-btn.chip { height: 28px; padding: 0 10px; font-size: 9px; }
+    .hud-btn.chip.off { opacity: 0.38; text-decoration: line-through; }
+    /* ---- responsive + dynamic layer ---- */
+    .stage { position: relative; z-index: 1; }
+    .reel::before {
+      content: "";
+      position: absolute;
+      inset: -20%;
+      background: radial-gradient(38% 38% at 72% 28%, color-mix(in srgb, var(--accent) 15%, transparent), transparent 70%),
+                  radial-gradient(34% 34% at 22% 78%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 70%);
+      pointer-events: none;
+      opacity: 0.8;
+    }
+    .reel.is-active::before { animation: driftGlow 20s ease-in-out infinite alternate; }
+    @keyframes driftGlow { to { transform: translate3d(-7%, 5%, 0) scale(1.14); } }
+    .stage-foot {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: clamp(12px, 2.4vh, 22px);
+      font-family: var(--font-mono);
+      font-size: clamp(8px, 1.2vw, 10px);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-dim);
+    }
+    .stage-foot span:last-child { color: var(--accent); }
+    #reel-nav { display: none; }
+    @media (hover: hover) and (pointer: fine) and (min-width: 900px) {
+      #reel-nav { position: fixed; right: 18px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 8px; z-index: 50; opacity: 0.45; transition: opacity 0.2s ease; }
+      #reel-nav:hover { opacity: 1; }
+      .reel { cursor: pointer; }
+    }
+    @media (min-width: 1400px) { .stage { width: min(90vw, 1240px); } }
+    @media (max-width: 380px) {
+      .stage-tag { display: none; }
+      .hud-right { gap: 5px; }
+      .hud-btn { padding: 0 9px; }
+    }
+    @media (pointer: coarse) {
+      .hud-btn { height: 38px; min-width: 38px; }
+      .hud-btn.chip { height: 34px; }
+    }
+    @supports (padding: max(0px)) {
+      .reel { padding-left: max(clamp(16px, 4vw, 48px), env(safe-area-inset-left)); padding-right: max(clamp(16px, 4vw, 48px), env(safe-area-inset-right)); }
+      #hud-top { padding-left: max(clamp(16px, 3vw, 28px), env(safe-area-inset-left)); padding-right: max(clamp(16px, 3vw, 28px), env(safe-area-inset-right)); }
+    }
+  </style>
+</head>
+<body data-evo="1">
+
+  <!-- Real Network Handshake Boot Loader -->
+  <div id="boot-screen">
+    <div class="boot-pulse"></div>
+    <div class="boot-text" id="boot-status">TUNING TO LIVE GLOBAL FEEDS...</div>
+  </div>
+
+  <!-- Evolving Corner Frame Geometry -->
+  <div id="corner-frames" aria-hidden="true">
+    <div class="c-mark c-tl"></div>
+    <div class="c-mark c-tr"></div>
+    <div class="c-mark c-bl"></div>
+    <div class="c-mark c-br"></div>
+  </div>
+
+  <!-- Top 2px Hairline Progress Bar -->
+  <div id="top-progress"></div>
+
+  <!-- Ephemeral First-Visit Gesture Whisper -->
+  <div id="gesture-whisper">TAP NEXT · HOLD PAUSE · SWIPE → OPEN SOURCE</div>
+
+  <!-- Decluttered Whisper-Quiet Top-Only HUD (Zero Bottom HUD, Zero Like Counters) -->
+  <header id="hud-top">
+    <div class="wordmark">
+      <span>SCTHRA</span>
+      <span class="stage-tag" id="evo-label">I</span>
+    </div>
+    <div class="hud-right">
+      <button class="hud-btn active" id="btn-sound" title="Toggle Content-Driven Sound (M)" aria-label="Toggle Sound">
+        <svg id="sound-icon-on" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+        </svg>
+        <svg id="sound-icon-off" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <line x1="23" y1="9" x2="17" y2="15"></line>
+          <line x1="17" y1="9" x2="23" y2="15"></line>
+        </svg>
+      </button>
+      <button class="hud-btn" id="btn-share-card" title="Generate Share Card PNG (S)" aria-label="Create Share Card">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+          <polyline points="16 6 12 2 8 6"></polyline>
+          <line x1="12" y1="2" x2="12" y2="15"></line>
+        </svg>
+      </button>
+      <button class="hud-btn" id="btn-like" title="Resonate with Active Piece (Double-Tap)" aria-label="Resonate">
+        <span id="like-heart">♡</span>
+      </button>
+      <button class="hud-btn" id="btn-affinity" title="Signal Affinity & Saved Pieces" aria-label="Signal Affinity">
+        <span>◈</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 3-Way Directional Swipe-Right Action Rail -->
+  <div id="source-edge-glow"></div>
+  <div id="swipe-action-rail" aria-hidden="true">
+    <div class="rail-node" data-mode="share"><span>↑</span><span>SHARE LINK</span></div>
+    <div class="rail-node selected" data-mode="open"><span>↗</span><span id="rail-open-domain">OPEN SOURCE</span></div>
+    <div class="rail-node" data-mode="mute"><span>↓</span><span>NOT INTERESTED</span></div>
+  </div>
+  <div id="action-toast" role="status" aria-live="polite"></div>
+
+  <!-- Vertical Scroll-Snap Stream -->
+  <nav id="reel-nav" aria-label="Piece navigation">
+    <button class="hud-btn" id="nav-up" aria-label="Previous piece" title="Previous (↑)">▲</button>
+    <button class="hud-btn" id="nav-down" aria-label="Next piece" title="Next (↓)">▼</button>
+  </nav>
+  <main id="stream">
+    <div id="buffer-sentinel"><i></i><i></i><i></i><i></i></div>
+  </main>
+
+  <!-- Share Card PNG Modal -->
+  <div id="share-modal" role="dialog" aria-modal="true" aria-label="Share Information Card">
+    <div class="share-preview-wrap">
+      <img id="share-card-preview" alt="Generated SCTHRA Information Card" />
+    </div>
+    <div class="share-actions">
+      <button class="hud-btn primary-pill" id="btn-download-png">↓ DOWNLOAD PNG</button>
+      <button class="hud-btn" id="btn-native-share">↗ SHARE</button>
+      <button class="hud-btn" id="btn-copy-source">COPY LINK</button>
+      <button class="hud-btn" id="btn-close-share">ESC</button>
+    </div>
+  </div>
+
+  <!-- Signal Affinity & Saved Drawer -->
+  <div id="drawer-overlay"></div>
+  <aside id="affinity-drawer">
+    <div class="drawer-title">
+      <span>SIGNAL AFFINITY</span>
+      <button class="hud-btn" id="btn-close-drawer">ESC</button>
+    </div>
+    <div id="bandit-bars" style="margin-bottom: 24px;"></div>
+    <div class="drawer-title" style="margin-top: 12px;">
+      <span>FOCUS</span>
+    </div>
+    <div id="preset-chips" class="chip-row" style="margin-bottom: 24px;"></div>
+    <div class="drawer-title" style="margin-top: 12px;">
+      <span>SOURCES</span>
+    </div>
+    <div id="source-chips" class="chip-row" style="margin-bottom: 24px;"></div>
+    <div class="drawer-title" style="margin-top: 12px;">
+      <span>RESONATED ARCHIVE</span>
+    </div>
+    <div id="saved-list"></div>
+  </aside>
+
+  <script>
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const safeUrl = u => { try { const x = new URL(u); return /^https?:$/.test(x.protocol) ? x.href : ''; } catch { return ''; } };
+    function shuffle(a) { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+    /* =========================================================================
+       1. CROSS-SESSION DEDUPLICATION REGISTRY (NEVER SHOW SAME SOURCE TWICE)
+       ========================================================================= */
+    const SeenRegistry = {
+      KEY: 'SCTHRA_seen_v2',
+      seen: new Set(),
+
+      init() {
+        try {
+          const raw = JSON.parse(localStorage.getItem(this.KEY) || '[]');
+          raw.forEach(item => this.seen.add(item));
+        } catch {
+          this.seen = new Set();
+        }
+      },
+
+      norm(str) {
+        return String(str || '').trim().toLowerCase().replace(/\/+$/, '');
+      },
+
+      has(url, title) {
+        const u = this.norm(url);
+        const t = this.norm(title);
+        return (u && this.seen.has(u)) || (t && this.seen.has(t));
+      },
+
+      mark(url, title) {
+        const u = this.norm(url);
+        const t = this.norm(title);
+        if (u) this.seen.add(u);
+        if (t) this.seen.add(t);
+        if (this.seen.size > 3000) {
+          this.seen = new Set(Array.from(this.seen).slice(-2400));
+        }
+        try {
+          localStorage.setItem(this.KEY, JSON.stringify(Array.from(this.seen)));
+        } catch {}
+      }
+    };
+
+    /* =========================================================================
+       2. ABBREVIATION-SAFE COMPLETE-SENTENCE DISTILLER & ANTI-REPETITION
+       ========================================================================= */
+    const Distiller = {
+      STOPWORDS: new Set([
+        'the', 'and', 'for', 'that', 'with', 'from', 'this', 'have', 'were',
+        'been', 'their', 'which', 'about', 'into', 'more', 'other', 'than',
+        'also', 'after', 'first', 'over', 'such', 'only', 'most', 'some', 'when'
+      ]),
+
+      clean(raw) {
+        if (!raw) return '';
+        const doc = new DOMParser().parseFromString(String(raw), 'text/html');
+        return (doc.body.textContent || '')
+          .replace(/\[\d+\]/g, '')
+          .replace(/\[citation needed\]/gi, '')
+          .replace(/\s+/g, ' ')
+          .trim();
+      },
+
+      tokens(text) {
+        return new Set(
+          this.clean(text)
+            .toLowerCase()
+            .replace(/[^a-z0-9\s]/g, ' ')
+            .split(/\s+/)
+            .filter(w => w.length >= 4 && !this.STOPWORDS.has(w))
+        );
+      },
+
+      isRedundant(candidate, existingTexts) {
+        const candNorm = this.clean(candidate).toLowerCase();
+        if (!candNorm) return true;
+        const candTokens = this.tokens(candidate);
+        if (candTokens.size === 0) return true;
+
+        for (const prev of existingTexts) {
+          const prevNorm = this.clean(prev).toLowerCase();
+          if (!prevNorm) continue;
+          if (candNorm === prevNorm || prevNorm.includes(candNorm) || candNorm.includes(prevNorm)) {
+            return true;
+          }
+          const prevTokens = this.tokens(prev);
+          let overlap = 0;
+          candTokens.forEach(t => { if (prevTokens.has(t)) overlap++; });
+          const ratio = overlap / Math.min(candTokens.size, prevTokens.size);
+          if (ratio >= 0.65) return true;
+        }
+        return false;
+      },
+
+      extractCompleteSentences(raw) {
+        const cleaned = this.clean(raw);
+        if (!cleaned) return [];
+
+        // Protect common abbreviations from false sentence splits
+        const protectedText = cleaned
+          .replace(/\b(Dr|Mr|Mrs|Ms|Prof|Sr|Jr|St|Mt|vs|etc|al|Fig|Eq|No|Vol|Dept|Univ|Inc|Ltd|Co|U\.S|U\.K|E\.U)\./gi, '$1\uE000')
+          .replace(/\b([A-Z])\./g, '$1\uE000');
+
+        const rawSentences = protectedText
+          .replace(/([.!?])\s+(?=[A-Z0-9"“‘(\[])/g, '$1\uE001')
+          .split('\uE001')
+          .map(s => s.replace(/\uE000/g, '.').trim())
+          .filter(s => {
+            if (s.length < 18) return false;
+            if (/^(credit|image|photo|source|doi|arxiv|isbn|issn|copyright)\b/i.test(s)) return false;
+            if (/\b(subscribe|sign up|newsletter|follow us|click here|read more|all rights reserved|cookies?|advertisement|affiliate|sponsored)\b/i.test(s)) return false;
+            return true;
+          });
+
+        return rawSentences.map(s => (/[.!?]$/.test(s) ? s : s + '.'));
+      },
+
+      highlightKeywords(sentence) {
+        const words = sentence.split(' ');
+        if (words.length < 6) return esc(sentence);
+        let highlighted = 0;
+        return words.map((w, idx) => {
+          const stripped = w.replace(/[^A-Za-z0-9-]/g, '');
+          if (idx > 0 && highlighted < 2 && stripped.length >= 7 && /^[A-Z]/.test(stripped)) {
+            highlighted++;
+            return `<span class="kw-hl">${esc(w)}</span>`;
+          }
+          return esc(w);
+        }).join(' ');
+      },
+
+      computeBeatDurationMs(lines, hasVisual) {
+        const chars = lines.join(' ').length;
+        const base = hasVisual ? 3400 : 2800;
+        return Math.min(12000, Math.max(base, base + chars * 42));
+      },
+
+      // Dynamically generates 1 to 7 slides depending on real content depth & zero repetition
+      buildDynamicBeats({ kickerPrefix, title, subtitle = '', bodyText = '', hasPhoto = false }) {
+        const seenInPost = [];
+        const cleanTitle = this.clean(title);
+        if (cleanTitle) seenInPost.push(cleanTitle);
+
+        const allSentences = this.extractCompleteSentences(bodyText);
+        const uniqueSentences = [];
+
+        if (subtitle) {
+          const cleanSub = this.clean(subtitle);
+          if (cleanSub && !this.isRedundant(cleanSub, seenInPost)) {
+            uniqueSentences.push(cleanSub);
+            seenInPost.push(cleanSub);
+          }
+        }
+
+        for (const s of allSentences) {
+          if (!this.isRedundant(s, seenInPost)) {
+            uniqueSentences.push(s);
+            seenInPost.push(s);
+          }
+        }
+
+        const beats = [];
+        const beat1Lines = [cleanTitle];
+        if (!hasPhoto && uniqueSentences.length > 0 && uniqueSentences[0].length < 170) {
+          beat1Lines.push(uniqueSentences.shift());
+        }
+
+        beats.push({
+          kicker: kickerPrefix,
+          lines: beat1Lines,
+          attachPhoto: hasPhoto
+        });
+
+        // Distribute remaining distinct sentences across as many slides as required (up to 7 total)
+        let idx = 0;
+        while (idx < uniqueSentences.length && beats.length < 7) {
+          const chunk = [uniqueSentences[idx++]];
+          if (idx < uniqueSentences.length && (chunk[0].length + uniqueSentences[idx].length) < 290) {
+            chunk.push(uniqueSentences[idx++]);
+          }
+          beats.push({
+            kicker: `${kickerPrefix} // ${String(beats.length + 1).padStart(2, '0')}`,
+            lines: chunk,
+            attachPhoto: false
+          });
+        }
+
+        return beats;
+      }
+    };
+
+    /* =========================================================================
+       3. DYNAMIC VIEWPORT AUTO-FITTER (NEVER CLIPS SENTENCES OR IMAGES)
+       ========================================================================= */
+    function fitStageToViewport(stageEl, hasVisual) {
+      if (!stageEl) return;
+      const lineEls = Array.from(stageEl.querySelectorAll('.reveal-line'));
+      const imgEl = stageEl.querySelector('.photo-frame img');
+
+      lineEls.forEach(el => {
+        el.style.fontSize = '';
+        el.style.lineHeight = '';
+      });
+      if (imgEl) imgEl.style.maxHeight = '';
+
+      const budget = window.innerHeight - 86;
+      let guard = 0;
+
+      while (stageEl.scrollHeight > budget && guard < 24) {
+        guard++;
+        if (imgEl) {
+          const curImgH = parseFloat(window.getComputedStyle(imgEl).maxHeight) || 320;
+          if (curImgH > 150) {
+            imgEl.style.maxHeight = Math.max(150, curImgH - 22) + 'px';
+          }
+        }
+        lineEls.forEach((el, idx) => {
+          const cur = parseFloat(window.getComputedStyle(el).fontSize);
+          const floor = idx === 0 ? 18 : 14;
+          if (cur > floor) {
+            el.style.fontSize = Math.max(floor, cur - 1.5) + 'px';
+            el.style.lineHeight = '1.24';
+          }
+        });
+      }
+    }
+
+    /* =========================================================================
+       4. CONTENT-DERIVED PROCEDURAL AUDIO ENGINE (ON BY DEFAULT)
+       ========================================================================= */
+    const ContentAudio = {
+      ctx: null,
+      enabled: true,
+      droneA: null,
+      droneB: null,
+      filter: null,
+      masterGain: null,
+      activeReel: null,
+
+      SCALES: {
+        NEWS: [146.83, 174.61, 220.00, 261.63, 293.66],
+        AI: [164.81, 196.00, 246.94, 293.66, 369.99],
+        TECH: [130.81, 155.56, 196.00, 233.08, 261.63],
+        ART: [174.61, 220.00, 261.63, 329.63, 392.00],
+        SCIENCE: [138.59, 164.81, 207.65, 246.94, 311.13],
+        COSMOS: [130.81, 146.83, 196.00, 220.00, 293.66],
+        EARTH: [123.47, 146.83, 185.00, 220.00, 277.18],
+        MARKETS: [155.56, 185.00, 233.08, 277.18, 349.23],
+        ARCHIVE: [164.81, 196.00, 246.94, 293.66, 329.63],
+        VERSE: [146.83, 185.00, 220.00, 277.18, 329.63],
+        BUSINESS: [146.83, 174.61, 220.00, 261.63, 311.13],
+        HISTORY: [130.81, 155.56, 196.00, 233.08, 293.66],
+        CULTURE: [146.83, 185.00, 220.00, 293.66, 369.99],
+        BOOKS: [130.81, 164.81, 196.00, 246.94, 293.66]
+      },
+
+      hash(str) {
+        let h = 2166136261;
+        for (let i = 0; i < str.length; i++) {
+          h ^= str.charCodeAt(i);
+          h = Math.imul(h, 16777619);
+        }
+        return Math.abs(h);
+      },
+
+      unlock() {
+        if (!this.ctx) {
+          const Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return false;
+          this.ctx = new Ctx();
+
+          this.filter = this.ctx.createBiquadFilter();
+          this.filter.type = 'lowpass';
+          this.filter.frequency.value = 320;
+
+          this.masterGain = this.ctx.createGain();
+          this.masterGain.gain.value = 0.0001;
+
+          this.droneA = this.ctx.createOscillator();
+          this.droneB = this.ctx.createOscillator();
+          this.droneA.type = 'sine';
+          this.droneB.type = 'triangle';
+          this.droneA.frequency.value = 73.42;
+          this.droneB.frequency.value = 110.0;
+
+          this.droneA.connect(this.filter);
+          this.droneB.connect(this.filter);
+          this.filter.connect(this.masterGain);
+          this.masterGain.connect(this.ctx.destination);
+
+          this.droneA.start();
+          this.droneB.start();
+        }
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume().catch(() => {});
+        }
+        if (this.enabled && this.masterGain) {
+          this.masterGain.gain.setTargetAtTime(0.036, this.ctx.currentTime, 0.35);
+        }
+        return true;
+      },
+
+      toggle() {
+        this.enabled = !this.enabled;
+        const btn = document.getElementById('btn-sound');
+        const iconOn = document.getElementById('sound-icon-on');
+        const iconOff = document.getElementById('sound-icon-off');
+        btn.classList.toggle('active', this.enabled);
+        if (iconOn) iconOn.style.display = this.enabled ? 'block' : 'none';
+        if (iconOff) iconOff.style.display = this.enabled ? 'none' : 'block';
+
+        if (this.enabled) {
+          this.unlock();
+          if (this.activeReel) this.tuneToReel(this.activeReel);
+        } else if (this.ctx && this.masterGain) {
+          this.masterGain.gain.setTargetAtTime(0.0001, this.ctx.currentTime, 0.2);
+        }
+      },
+
+      tuneToReel(reel) {
+        this.activeReel = reel;
+        if (!this.enabled || !this.unlock()) return;
+        const scale = this.SCALES[reel.domain] || this.SCALES.ARCHIVE;
+        const h = this.hash(reel.title || reel.id);
+        const now = this.ctx.currentTime;
+        this.droneA.frequency.setTargetAtTime(scale[0] * 0.5, now, 0.45);
+        this.droneB.frequency.setTargetAtTime(scale[(h % 3) + 1] * 0.5, now, 0.45);
+        this.filter.frequency.setTargetAtTime(240 + (h % 320), now, 0.45);
+      },
+
+      playLineNote(reel, lineText, lineIndex) {
+        if (!this.enabled || !reel) return;
+        if (!this.ctx || this.ctx.state !== 'running') return;
+        const scale = this.SCALES[reel.domain] || this.SCALES.ARCHIVE;
+        const h = this.hash(lineText || String(lineIndex));
+        const freq = scale[(h + lineIndex) % scale.length] * (lineIndex % 2 === 0 ? 2 : 1);
+
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = reel.domain === 'SCIENCE' || reel.domain === 'EARTH' ? 'triangle' : 'sine';
+        osc.frequency.setValueAtTime(freq, now);
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(0.022, now + 0.035);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.72);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.76);
+      },
+
+      playTransitionPulse(direction = 1) {
+        if (!this.enabled || !this.ctx || this.ctx.state !== 'running') return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        const base = direction > 0 ? 196 : 164.81;
+        osc.frequency.setValueAtTime(base, now);
+        osc.frequency.exponentialRampToValueAtTime(base * 1.25, now + 0.14);
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(0.015, now + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.16);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.18);
+      }
+    };
+
+    /* =========================================================================
+       5. 100% REAL-TIME MULTI-SOURCE WEB API INGESTION ENGINE
+       ========================================================================= */
+    /* High-signal gate: drops clickbait, deals/promo, and title-only stubs before they reach the feed */
+    const Quality = {
+      SLOP: /\b(you won'?t believe|shocking|jaw-dropping|top \d+|\d+ (best|ways|things|reasons|tips|tricks)|deals?|discount|coupon|promo code|giveaway|sponsored|black friday|cyber monday|horoscope|gossip|buy now|price drop|hands-on)\b/i,
+      isSlop(t) { return this.SLOP.test(String(t || '')); },
+      chars(reel) { return (reel.beats || []).reduce((n, b) => n + (b.lines || []).join(' ').length, 0); },
+      worthy(reel) {
+        if (this.isSlop(reel.title)) return false;
+        const chars = this.chars(reel);
+        const visual = (reel.beats || []).some(b => b.hasVisual);
+        return visual ? chars >= 40 : chars >= 120;
+      },
+      richness(reel) {
+        const visual = (reel.beats || []).some(b => b.hasVisual) ? 0.25 : 0;
+        return visual + Math.min(0.3, this.chars(reel) / 2500);
+      }
+    };
+
+    const LiveWebIngestor = {
+      wikiOffset: 0,
+      spaceOffset: 0,
+      articPage: Math.floor(Math.random() * 45) + 1,
+
+      async getJSON(url, timeoutMs = 5200) {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+        try {
+          const res = await fetch(url, { signal: ctrl.signal });
+          clearTimeout(timer);
+          if (!res.ok) return null;
+          return await res.json();
+        } catch {
+          clearTimeout(timer);
+          return null;
+        }
+      },
+
+      async getText(url, timeoutMs = 5200) {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+        try {
+          const res = await fetch(url, { signal: ctrl.signal });
+          clearTimeout(timer);
+          if (!res.ok) return null;
+          return await res.text();
+        } catch {
+          clearTimeout(timer);
+          return null;
+        }
+      },
+
+      verifyImage(url, timeoutMs = 5200) {
+        return new Promise((resolve) => {
+          if (!url) return resolve(null);
+          const img = new Image();
+          const timer = setTimeout(() => resolve(null), timeoutMs);
+          img.onload = () => {
+            clearTimeout(timer);
+            if (img.naturalWidth > 120 && img.naturalHeight > 120) {
+              const isPng = /\.png(\?|#|$)/i.test(url) || /format=png/i.test(url);
+              resolve({ src: url, isPng, w: img.naturalWidth, h: img.naturalHeight });
+            } else {
+              resolve(null);
+            }
+          };
+          img.onerror = () => {
+            clearTimeout(timer);
+            resolve(null);
+          };
+          img.src = url;
+        });
+      },
+
+      // Streams each API source progressively via onItemReady callback
+      lastRun: {},
+
+      // Source registry: domain drives weighting/toggles, cool = min ms between calls (rate-limit friendly)
+      registry() {
+        return [
+          // history, archives, culture
+          { id: 'otd', domain: 'HISTORY', fn: () => this.fromWikimediaOnThisDay() },
+          { id: 'wellcome', domain: 'HISTORY', fn: () => this.fromWellcome() },
+          { id: 'tfa', domain: 'ARCHIVE', fn: () => this.fromWikipediaFeatured() },
+          { id: 'books', domain: 'BOOKS', fn: () => this.fromOpenLibrary() },
+          { id: 'verse', domain: 'VERSE', fn: () => this.fromPoetry() },
+          // art
+          { id: 'potd', domain: 'ART', fn: () => this.fromWikimediaPictureOfDay() },
+          { id: 'artic', domain: 'ART', fn: () => this.fromArtInstitute() },
+          { id: 'met', domain: 'ART', fn: () => this.fromMetMuseum() },
+          { id: 'cleveland', domain: 'ART', fn: () => this.fromClevelandArt() },
+          // cosmos + earth science
+          { id: 'nasa', domain: 'COSMOS', fn: () => this.fromNasaImageLibrary() },
+          { id: 'apod', domain: 'COSMOS', cool: 8 * 60000, fn: () => this.fromApod() },
+          { id: 'launch', domain: 'COSMOS', cool: 20 * 60000, fn: () => this.fromLaunches() },
+          { id: 'iss', domain: 'COSMOS', cool: 12 * 60000, fn: () => this.fromISS() },
+          { id: 'usgs', domain: 'EARTH', fn: () => this.fromUSGSEarthquakes() },
+          { id: 'eonet', domain: 'EARTH', fn: () => this.fromEonet() },
+          { id: 'kp', domain: 'EARTH', cool: 25 * 60000, fn: () => this.fromSpaceWeather() },
+          // research
+          { id: 'arxivai', domain: 'AI', fn: () => this.fromArxivAI() },
+          { id: 'arxivsci', domain: 'SCIENCE', fn: () => this.fromArxivScience() },
+          { id: 'arxivbiz', domain: 'BUSINESS', fn: () => this.fromArxivBusiness() },
+          { id: 'nobel', domain: 'SCIENCE', fn: () => this.fromNobel() },
+          { id: 'hfpapers', domain: 'AI', fn: () => this.fromHFPapers() },
+          { id: 'hfmodels', domain: 'AI', cool: 4 * 60000, fn: () => this.fromHFModels() },
+          { id: 'github', domain: 'AI', cool: 3 * 60000, fn: () => this.fromGitHubAI() },
+          // tech + tech business
+          { id: 'hnai', domain: 'AI', fn: () => this.fromHNSearch() },
+          { id: 'hn', domain: 'TECH', fn: () => this.fromHackerNews() },
+          { id: 'devto', domain: 'TECH', fn: () => this.fromDevTo() },
+          // curated long-form publications
+          ...this.RSS_FEEDS.map(f => ({ id: `rss-${f.id}`, domain: f.domain, cool: 2 * 60000, fn: () => this.fromRSS(f) }))
+        ];
+      },
+
+      // Weighted random pick (no replacement): favours domains the reader enjoys, skips disabled + cooling sources
+      pickFetchers(n) {
+        const now = Date.now();
+        const pool = this.registry().filter(f =>
+          !Recommender.disabled.has(f.domain) && now - (this.lastRun[f.id] || 0) >= (f.cool || 0));
+        const wOf = f => Recommender.weights[f.domain] || 1;
+        const picked = [];
+        while (picked.length < n && pool.length) {
+          let r = Math.random() * pool.reduce((s, f) => s + wOf(f), 0);
+          let idx = 0;
+          for (; idx < pool.length - 1; idx++) { r -= wOf(pool[idx]); if (r <= 0) break; }
+          picked.push(pool.splice(idx, 1)[0]);
+        }
+        return picked;
+      },
+
+      // Streams each API source progressively via onItemReady callback; resolves with number of reels produced
+      async streamWave(onItemReady, n = 9) {
+        let produced = 0;
+        await Promise.allSettled(this.pickFetchers(n).map(async (f) => {
+          this.lastRun[f.id] = Date.now();
+          const reel = await f.fn();
+          if (reel && reel.beats?.length && Quality.worthy(reel)) {
+            produced++;
+            if (onItemReady) onItemReady(reel);
+          }
+        }));
+        return produced;
+      },
+
+      datePath(d) {
+        return `${d.getUTCFullYear()}/${String(d.getUTCMonth() + 1).padStart(2, '0')}/${String(d.getUTCDate()).padStart(2, '0')}`;
+      },
+
+      // 2. Wikimedia "On This Day" Historical Milestone
+      async fromWikimediaOnThisDay() {
+        const now = new Date();
+        const mm = String(now.getUTCMonth() + 1).padStart(2, '0');
+        const dd = String(now.getUTCDate()).padStart(2, '0');
+        const json = await this.getJSON(`https://api.wikimedia.org/feed/v1/wikipedia/en/onthisday/selected/${mm}/${dd}`);
+        const events = (json?.selected || []).filter(ev => {
+          const link = ev.pages?.[0]?.content_urls?.desktop?.page || '';
+          const txt = Distiller.clean(ev.text);
+          return txt && link && !SeenRegistry.has(link, `${ev.year}-${txt}`);
+        });
+        if (!events.length) return null;
+
+        const pick = events[Math.floor(Math.random() * events.length)];
+        const page = pick.pages?.[0];
+        const sourceUrl = page?.content_urls?.desktop?.page || 'https://en.wikipedia.org';
+        const story = Distiller.clean(pick.text);
+        const verifiedPhoto = await this.verifyImage(page?.thumbnail?.source || page?.originalimage?.source);
+        const beatsRaw = Distiller.buildDynamicBeats({
+          kickerPrefix: `ON THIS DAY // ${pick.year}`,
+          title: story,
+          bodyText: page?.extract || '',
+          hasPhoto: Boolean(verifiedPhoto)
+        });
+        SeenRegistry.mark(sourceUrl, `${pick.year}-${story}`);
+
+        return this.composeReel({
+          id: `otd-${pick.year}-${Math.random().toString(36).slice(2, 6)}`,
+          domain: 'HISTORY',
+          typo: 'typo-editorial',
+          accent: '#eab308',
+          sourceUrl,
+          title: `${pick.year} — ${story}`,
+          verifiedPhoto,
+          beatsRaw
+        });
+      },
+
+      // 3. Wikimedia Featured Picture of the Day
+      async fromWikimediaPictureOfDay() {
+        const d = new Date(Date.now() - Math.floor(Math.random() * 14) * 86400000);
+        const yyyy = d.getUTCFullYear();
+        const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+        const dd = String(d.getUTCDate()).padStart(2, '0');
+        const data = await this.getJSON(`https://api.wikimedia.org/feed/v1/wikipedia/en/featured/${yyyy}/${mm}/${dd}`);
+        const imgObj = data?.image;
+        if (!imgObj) return null;
+
+        const title = Distiller.clean(imgObj.title?.replace(/^File:/i, '').replace(/\.[a-z]+$/i, '') || 'Archival Plate');
+        const desc = Distiller.clean(imgObj.description?.text || '');
+        const sourceUrl = imgObj.file_page || 'https://commons.wikimedia.org';
+        if (SeenRegistry.has(sourceUrl, title)) return null;
+
+        const verifiedPhoto = await this.verifyImage(imgObj.thumbnail?.source || imgObj.image?.source);
+        if (!verifiedPhoto) return null;
+
+        const beatsRaw = Distiller.buildDynamicBeats({
+          kickerPrefix: 'FEATURED PLATE',
+          title,
+          bodyText: desc,
+          hasPhoto: true
+        });
+        SeenRegistry.mark(sourceUrl, title);
+
+        return this.composeReel({
+          id: `potd-${yyyy}${mm}${dd}`,
+          domain: 'ART',
+          typo: 'typo-editorial',
+          accent: '#f59e0b',
+          sourceUrl,
+          title,
+          verifiedPhoto,
+          beatsRaw
+        });
+      },
+
+      // 4. NASA Image & Video Library
+      async fromNasaImageLibrary() {
+        const queries = ['nebula', 'galaxy', 'saturn', 'supernova', 'earth orbit', 'mars rover', 'eclipse'];
+        const q = queries[Math.floor(Math.random() * queries.length)];
+        const page = Math.floor(Math.random() * 6) + 1;
+        const data = await this.getJSON(`https://images-api.nasa.gov/search?q=${encodeURIComponent(q)}&media_type=image&page=${page}`);
+        const items = shuffle(data?.collection?.items || []);
+
+        for (const item of items.slice(0, 8)) {
+          const meta = item.data?.[0];
+          const thumb = item.links?.find(l => l.rel === 'preview')?.href;
+          if (!meta || !thumb) continue;
+          const title = Distiller.clean(meta.title);
+          const sourceUrl = `https://images.nasa.gov/details/${encodeURIComponent(meta.nasa_id)}`;
+          if (SeenRegistry.has(sourceUrl, title)) continue;
+
+          const verifiedPhoto = await this.verifyImage(thumb);
+          if (!verifiedPhoto) continue;
+
+          const beatsRaw = Distiller.buildDynamicBeats({
+            kickerPrefix: 'NASA DEEP SPACE',
+            title,
+            bodyText: meta.description || '',
+            hasPhoto: true
+          });
+          SeenRegistry.mark(sourceUrl, title);
+
+          return this.composeReel({
+            id: `nasa-${meta.nasa_id}`,
+            domain: 'COSMOS',
+            typo: 'typo-display',
+            accent: '#38bdf8',
+            sourceUrl,
+            title,
+            verifiedPhoto,
+            beatsRaw
+          });
+        }
+        return null;
+      },
+
+      // 5. arXiv Artificial Intelligence Preprints (cs.AI, cs.LG, cs.CL)
+      async fromArxivAI() {
+        const cats = ['cs.AI', 'cs.LG', 'cs.CL', 'cs.CV', 'cs.RO', 'cs.MA', 'cs.CR', 'stat.ML', 'cs.IR'];
+        const cat = cats[Math.floor(Math.random() * cats.length)];
+        const start = Math.floor(Math.random() * 45);
+        const xmlText = await this.getText(`https://export.arxiv.org/api/query?search_query=cat:${cat}&sortBy=submittedDate&sortOrder=descending&start=${start}&max_results=4`);
+        if (!xmlText) return null;
+
+        const doc = new DOMParser().parseFromString(xmlText, 'text/xml');
+        const entries = Array.from(doc.querySelectorAll('entry'));
+        for (const entry of entries) {
+          const title = Distiller.clean(entry.querySelector('title')?.textContent);
+          const summary = Distiller.clean(entry.querySelector('summary')?.textContent);
+          const sourceUrl = entry.querySelector('id')?.textContent?.trim();
+          const author = Distiller.clean(entry.querySelector('author name')?.textContent || '');
+          if (!title || !sourceUrl || SeenRegistry.has(sourceUrl, title)) continue;
+
+          const beatsRaw = Distiller.buildDynamicBeats({
+            kickerPrefix: `AI RESEARCH // ${cat}`,
+            title,
+            subtitle: author ? `Lead researcher: ${author}.` : '',
+            bodyText: summary,
+            hasPhoto: false
+          });
+          SeenRegistry.mark(sourceUrl, title);
+
+          return this.composeReel({
+            id: `arxiv-ai-${Date.now()}-${Math.random().toString(36).slice(2, 5)}`,
+            domain: 'AI',
+            typo: 'typo-editorial',
+            accent: '#a78bfa',
+            sourceUrl,
+            title,
+            verifiedPhoto: null,
+            beatsRaw
+          });
+        }
+        return null;
+      },
+
+      // 6. arXiv Physics & Quantum Preprints
+      async fromArxivScience() {
+        const cats = ['quant-ph', 'astro-ph.CO', 'astro-ph.EP', 'physics.hist-ph', 'math.HO', 'q-bio.NC', 'cond-mat.mes-hall', 'cs.HC'];
+        const cat = cats[Math.floor(Math.random() * cats.length)];
+        const start = Math.floor(Math.random() * 45);
+        const xmlText = await this.getText(`https://export.arxiv.org/api/query?search_query=cat:${cat}&sortBy=submittedDate&sortOrder=descending&start=${start}&max_results=4`);
+        if (!xmlText) return null;
+
+        const doc = new DOMParser().parseFromString(xmlText, 'text/xml');
+        const entries = Array.from(doc.querySelectorAll('entry'));
+        for (const entry of entries) {
+          const title = Distiller.clean(entry.querySelector('title')?.textContent);
+          const summary = Distiller.clean(entry.querySelector('summary')?.textContent);
+          const sourceUrl = entry.querySelector('id')?.textContent?.trim();
+          if (!title || !sourceUrl || SeenRegistry.has(sourceUrl, title)) continue;
+
+          const beatsRaw = Distiller.buildDynamicBeats({
+            kickerPrefix: `FRONTIER SCIENCE // ${cat.toUpperCase()}`,
+            title,
+            bodyText: summary,
+            hasPhoto: false
+          });
+          SeenRegistry.mark(sourceUrl, title);
+
+          return this.composeReel({
+            id: `arxiv-sci-${Date.now()}-${Math.random().toString(36).slice(2, 5)}`,
+            domain: 'SCIENCE',
+            typo: 'typo-editorial',
+            accent: '#c084fc',
+            sourceUrl,
+            title,
+            verifiedPhoto: null,
+            beatsRaw
+          });
+        }
+        return null;
+      },
+
+      // 7. Art Institute of Chicago (Strictly requires verified image)
+      async fromArtInstitute() {
+        const data = await this.getJSON(`https://api.artic.edu/api/v1/artworks?page=${this.articPage++}&limit=10&fields=id,title,artist_display,date_display,medium_display,place_of_origin,image_id`);
+        for (const w of (data?.data || [])) {
+          const sourceUrl = `https://www.artic.edu/artworks/${w.id}`;
+          if (!w.image_id || SeenRegistry.has(sourceUrl, w.title)) continue;
+          const imgUrl = `https://www.artic.edu/iiif/2/${w.image_id}/full/843,/0/default.jpg`;
+          const verifiedPhoto = await this.verifyImage(imgUrl);
+          if (!verifiedPhoto) continue;
+
+          const title = Distiller.clean(w.title);
+          const artist = Distiller.clean(w.artist_display || 'Archival Master');
+          const details = `Created ${w.date_display || 'in archival history'}${w.place_of_origin ? ' in ' + w.place_of_origin : ''}. Medium: ${w.medium_display || 'Fine art plate'}.`;
+          const beatsRaw = Distiller.buildDynamicBeats({
+            kickerPrefix: 'ART INSTITUTE OF CHICAGO',
+            title,
+            subtitle: artist,
+            bodyText: details,
+            hasPhoto: true
+          });
+          SeenRegistry.mark(sourceUrl, title);
+
+          return this.composeReel({
+            id: `artic-${w.id}`,
+            domain: 'ART',
+            typo: 'typo-editorial',
+            accent: '#f472b6',
+            sourceUrl,
+            title,
+            verifiedPhoto,
+            beatsRaw
+          });
+        }
+        return null;
+      },
+
+      // 8. Metropolitan Museum of Art (Strictly requires verified image)
+      async fromMetMuseum() {
+        const queries = ['sunflowers', 'astronomy', 'samurai', 'landscape', 'sculpture', 'celestial', 'impressionism', 'woodblock print', 'illuminated manuscript', 'textile', 'portrait miniature', 'calligraphy', 'ancient Egypt', 'armor', 'ukiyo-e'];
+        const q = queries[Math.floor(Math.random() * queries.length)];
+        const search = await this.getJSON(`https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=${encodeURIComponent(q)}`);
+        const ids = shuffle((search?.objectIDs || []).slice(0, 60));
+
+        for (const id of ids.slice(0, 6)) {
+          const obj = await this.getJSON(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`);
+          if (!obj?.primaryImageSmall || !obj?.objectURL || SeenRegistry.has(obj.objectURL, obj.title)) continue;
+          const verifiedPhoto = await this.verifyImage(obj.primaryImageSmall);
+          if (!verifiedPhoto) continue;
+
+          const title = Distiller.clean(obj.title);
+          const artist = Distiller.clean(obj.artistDisplayName || obj.culture || 'Permanent Collection');
+          const details = `${obj.medium || 'Fine art artifact'} from ${obj.department || 'The Met Gallery'}${obj.objectDate ? ' (' + obj.objectDate + ')' : ''}.`;
+          const beatsRaw = Distiller.buildDynamicBeats({
+            kickerPrefix: 'THE METROPOLITAN MUSEUM',
+            title,
+            subtitle: artist,
+            bodyText: details,
+            hasPhoto: true
+          });
+          SeenRegistry.mark(obj.objectURL, title);
+
+          return this.composeReel({
+            id: `met-${obj.objectID}`,
+            domain: 'ART',
+            typo: 'typo-editorial',
+            accent: '#fb7185',
+            sourceUrl: obj.objectURL,
+            title,
+            verifiedPhoto,
+            beatsRaw
+          });
+        }
+        return null;
+      },
+
+      // 10. Hacker News Engineering & Tech
+      async fromHackerNews() {
+        const ids = await this.getJSON('https://hacker-news.firebaseio.com/v0/topstories.json');
+        if (!Array.isArray(ids)) return null;
+        const pool = shuffle(ids.slice(0, 45));
+
+        for (const id of pool.slice(0, 6)) {
+          const item = await this.getJSON(`https://hacker-news.firebaseio.com/v0/item/${id}.json`);
+          if (!item?.title || !item?.url || (item.score || 0) < 120 || SeenRegistry.has(item.url, item.title)) continue;
+          const host = new URL(item.url).hostname.replace('www.', '');
+          const bodyText = item.text
+            ? Distiller.clean(item.text)
+            : `Published on ${host} with ${item.score || 1} community points and ${item.descendants || 0} active technical replies.`;
+          const beatsRaw = Distiller.buildDynamicBeats({
+            kickerPrefix: 'SYSTEMS & TECH',
+            title: item.title,
+            bodyText,
+            hasPhoto: false
+          });
+          SeenRegistry.mark(item.url, item.title);
+
+          return this.composeReel({
+            id: `hn-${item.id}`,
+            domain: 'TECH',
+            typo: 'typo-display',
+            accent: '#4ade80',
+            sourceUrl: item.url,
+            title: item.title,
+            verifiedPhoto: null,
+            beatsRaw
+          });
+        }
+        return null;
+      },
+
+      // 16. USGS Live Seismic Telemetry + Geospatial Epicenter Map
+      async fromUSGSEarthquakes() {
+        const data = await this.getJSON('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson');
+        for (const f of (data?.features || [])) {
+          const p = f.properties;
+          const c = f.geometry.coordinates;
+          if (!p?.url || SeenRegistry.has(p.url, p.title)) continue;
+          const title = `Magnitude ${p.mag.toFixed(1)} Earthquake — ${p.place}`;
+          const details = `Rupture recorded at ${c[2].toFixed(1)} kilometers depth (${c[1].toFixed(2)}°, ${c[0].toFixed(2)}°). ${p.tsunami ? 'Tsunami advisory issued for coastal zones.' : 'No tsunami warning triggered by seismic sensors.'}`;
+          const beatsRaw = Distiller.buildDynamicBeats({
+            kickerPrefix: 'SEISMIC TELEMETRY // USGS',
+            title,
+            bodyText: details,
+            hasPhoto: false
+          });
+          beatsRaw[0].mapData = {
+            lat: c[1],
+            lon: c[0],
+            mag: p.mag,
+            depthKm: c[2],
+            place: p.place
+          };
+          SeenRegistry.mark(p.url, p.title);
+
+          return this.composeReel({
+            id: `usgs-${f.id}`,
+            domain: 'EARTH',
+            typo: 'typo-telemetry',
+            accent: '#fb923c',
+            sourceUrl: p.url,
+            title,
+            verifiedPhoto: null,
+            beatsRaw
+          });
+        }
+        return null;
+      },
+
+      // 17. Wikipedia Today's Featured Article (random recent day)
+      async fromWikipediaFeatured() {
+        const d = new Date(Date.now() - Math.floor(Math.random() * 25) * 86400000);
+        const data = await this.getJSON(`https://api.wikimedia.org/feed/v1/wikipedia/en/featured/${this.datePath(d)}`);
+        const tfa = data?.tfa;
+        const sourceUrl = tfa?.content_urls?.desktop?.page;
+        const title = Distiller.clean(tfa?.titles?.normalized || tfa?.displaytitle || tfa?.title);
+        if (!tfa || !sourceUrl || !title || SeenRegistry.has(sourceUrl, title)) return null;
+        const verifiedPhoto = await this.verifyImage(tfa.thumbnail?.source || tfa.originalimage?.source);
+        const beatsRaw = Distiller.buildDynamicBeats({
+          kickerPrefix: 'FEATURED ARTICLE',
+          title,
+          subtitle: tfa.description || '',
+          bodyText: tfa.extract || '',
+          hasPhoto: Boolean(verifiedPhoto)
+        });
+        SeenRegistry.mark(sourceUrl, title);
+        return this.composeReel({
+          id: `tfa-${title}-${Math.random().toString(36).slice(2, 5)}`,
+          domain: 'ARCHIVE', typo: 'typo-editorial', accent: '#fcd34d',
+          sourceUrl, title, verifiedPhoto, beatsRaw
+        });
+      },
+
+      // 19. NASA EONET: live open natural events (wildfires, storms, volcanoes, icebergs)
+      async fromEonet() {
+        const data = await this.getJSON('https://eonet.gsfc.nasa.gov/api/v3/events?status=open&limit=60');
+        for (const ev of shuffle(data?.events || [])) {
+          const geo = (ev.geometry || []).filter(g => g.type === 'Point' && Array.isArray(g.coordinates)).pop();
+          const sourceUrl = ev.sources?.[0]?.url || ev.link;
+          const title = Distiller.clean(ev.title);
+          if (!geo || !title || !sourceUrl || SeenRegistry.has(sourceUrl, title)) continue;
+          const cat = ev.categories?.[0]?.title || 'Natural event';
+          const [lon, lat] = geo.coordinates;
+          const when = new Date(geo.date);
+          const whenTxt = isNaN(when) ? 'recently' : when.toISOString().slice(0, 10);
+          const beatsRaw = [{
+            kicker: `EARTH OBSERVATORY // ${cat.toUpperCase()}`,
+            lines: [
+              title,
+              `NASA's Earth Observatory Natural Event Tracker lists this ${cat.toLowerCase()} event as still open, last observed on ${whenTxt}.`,
+              `Position ${lat.toFixed(2)}°, ${lon.toFixed(2)}°.`
+            ],
+            mapData: { lat, lon, captionL: cat.toUpperCase().slice(0, 26), captionR: whenTxt, ring: 80, dur: 2.6 }
+          }];
+          SeenRegistry.mark(sourceUrl, title);
+          return this.composeReel({
+            id: `eonet-${ev.id}`,
+            domain: 'EARTH', typo: 'typo-telemetry', accent: '#f97316',
+            sourceUrl, title, verifiedPhoto: null, beatsRaw
+          });
+        }
+        return null;
+      },
+
+      // 20. Live International Space Station position
+      async fromISS() {
+        const j = await this.getJSON('https://api.wheretheiss.at/v1/satellites/25544');
+        if (!j || typeof j.latitude !== 'number') return null;
+        const lat = j.latitude, lon = j.longitude;
+        const alt = Math.round(j.altitude), vel = Math.round(j.velocity);
+        return this.composeReel({
+          id: `iss-${Date.now()}`,
+          domain: 'COSMOS', typo: 'typo-telemetry', accent: '#7dd3fc',
+          sourceUrl: 'https://spotthestation.nasa.gov/',
+          title: 'International Space Station: live position',
+          verifiedPhoto: null,
+          beatsRaw: [{
+            kicker: 'ORBITAL TRACK // ISS',
+            lines: [
+              `The International Space Station is passing over ${lat.toFixed(2)}°, ${lon.toFixed(2)}° at ${alt} km altitude.`,
+              `It moves at ${vel.toLocaleString()} km/h, circling the planet roughly every 92 minutes. Right now it is in ${String(j.visibility || 'orbit')}.`
+            ],
+            mapData: { lat, lon, captionL: `ISS • ${alt} KM`, captionR: `${vel.toLocaleString()} KM/H`, ring: 70, dur: 2 }
+          }]
+        });
+      },
+
+      // 21. NOAA planetary K-index (geomagnetic activity, last ~5 days)
+      async fromSpaceWeather() {
+        const j = await this.getJSON('https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json');
+        if (!Array.isArray(j) || j.length < 10) return null;
+        const rows = Array.isArray(j[0]) ? j.slice(1) : j;
+        const series = rows.map(r => parseFloat(Array.isArray(r) ? r[1] : (r.Kp ?? r.kp_index))).filter(Number.isFinite).slice(-40);
+        if (series.length < 10) return null;
+        const latest = series[series.length - 1];
+        const peak = Math.max(...series);
+        const level = latest >= 9 ? 'G5 extreme storm' : latest >= 8 ? 'G4 severe storm' : latest >= 7 ? 'G3 strong storm' : latest >= 6 ? 'G2 moderate storm' : latest >= 5 ? 'G1 minor storm' : latest >= 4 ? 'active' : 'quiet';
+        const key = `kp-${new Date().getUTCDate()}-${Math.floor(new Date().getUTCHours() / 6)}`;
+        if (SeenRegistry.has(key, key)) return null;
+        SeenRegistry.mark(key, key);
+        return this.composeReel({
+          id: key,
+          domain: 'EARTH', typo: 'typo-telemetry', accent: latest >= 5 ? '#f472b6' : '#2dd4bf',
+          sourceUrl: 'https://www.swpc.noaa.gov/products/planetary-k-index',
+          title: `Geomagnetic field is ${level} (Kp ${latest.toFixed(1)})`,
+          verifiedPhoto: null,
+          beatsRaw: [{
+            kicker: 'SPACE WEATHER // NOAA SWPC',
+            lines: [
+              `Geomagnetic field is ${level}, with a planetary Kp index of ${latest.toFixed(1)}.`,
+              `Over the past days the index peaked at ${peak.toFixed(1)}. At Kp 5 and above, auroras push far beyond the polar circles.`
+            ],
+            chartData: {
+              symbol: 'PLANETARY Kp INDEX',
+              priceFormatted: `Kp ${latest.toFixed(1)}`,
+              deltaPct: 0,
+              deltaText: level.toUpperCase(),
+              color: latest >= 5 ? '#f472b6' : '#2dd4bf',
+              series,
+              rangeLabel: '3-HOUR STEPS'
+            }
+          }]
+        });
+      },
+
+      // 22. Launch Library 2: upcoming rocket launches
+      async fromLaunches() {
+        const data = await this.getJSON('https://ll.thespacedevs.com/2.2.0/launch/upcoming/?limit=8', 7000);
+        for (const l of shuffle(data?.results || [])) {
+          const name = Distiller.clean(l.name);
+          if (!name || SeenRegistry.has(`launch:${l.id}`, name)) continue;
+          const net = new Date(l.net);
+          const days = Math.round((net - Date.now()) / 86400000);
+          const when = isNaN(net) ? 'a date still to be set' : net.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+          const provider = l.launch_service_provider?.name || 'The launch provider';
+          const pad = [l.pad?.name, l.pad?.location?.name].filter(Boolean).join(', ');
+          const verifiedPhoto = await this.verifyImage(l.image?.image_url || l.image);
+          const beatsRaw = Distiller.buildDynamicBeats({
+            kickerPrefix: !isNaN(net) && days >= 0 ? `LAUNCH MANIFEST // T-${days}D` : 'LAUNCH MANIFEST',
+            title: name,
+            subtitle: `${provider} is targeting liftoff on ${when}${pad ? ' from ' + pad : ''}.`,
+            bodyText: `${l.status?.name ? 'Status: ' + l.status.name + '. ' : ''}${l.mission?.description || ''}`,
+            hasPhoto: Boolean(verifiedPhoto)
+          });
+          const sourceUrl = l.info_urls?.[0]?.url || 'https://nextspaceflight.com/launches/upcoming/';
+          SeenRegistry.mark(`launch:${l.id}`, name);
+          return this.composeReel({
+            id: `launch-${l.id}`,
+            domain: 'COSMOS', typo: 'typo-display', accent: '#fb923c',
+            sourceUrl, title: name, verifiedPhoto, beatsRaw
+          });
+        }
+        return null;
+      },
+
+      // 23. NASA Astronomy Picture of the Day (random archive pick)
+      async fromApod() {
+        const data = await this.getJSON('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&count=3', 7000);
+        for (const a of (Array.isArray(data) ? data : [])) {
+          if (a.media_type !== 'image' || !a.date) continue;
+          const title = Distiller.clean(a.title);
+          const sourceUrl = `https://apod.nasa.gov/apod/ap${a.date.slice(2).replace(/-/g, '')}.html`;
+          if (SeenRegistry.has(sourceUrl, title)) continue;
+          const verifiedPhoto = await this.verifyImage(a.url);
+          if (!verifiedPhoto) continue;
+          const beatsRaw = Distiller.buildDynamicBeats({
+            kickerPrefix: `ASTRONOMY PICTURE // ${a.date}`,
+            title,
+            bodyText: a.explanation || '',
+            hasPhoto: true
+          });
+          SeenRegistry.mark(sourceUrl, title);
+          return this.composeReel({
+            id: `apod-${a.date}`,
+            domain: 'COSMOS', typo: 'typo-display', accent: '#818cf8',
+            sourceUrl, title, verifiedPhoto, beatsRaw
+          });
+        }
+        return null;
+      },
+
+      // 24. Cleveland Museum of Art (CC0 open access, verified image)
+      async fromClevelandArt() {
+        const skip = Math.floor(Math.random() * 4000);
+        const data = await this.getJSON(`https://openaccess-api.clevelandart.org/api/artworks/?has_image=1&cc0=1&limit=10&skip=${skip}&fields=id,title,creators,creation_date,technology,culture,images,url,description,did_you_know`);
+        for (const w of shuffle(data?.data || [])) {
+          const title = Distiller.clean(w.title);
+          if (!title || !w.url || SeenRegistry.has(w.url, title)) continue;
+          const verifiedPhoto = await this.verifyImage(w.images?.web?.url);
+          if (!verifiedPhoto) continue;
+          const artist = Distiller.clean(w.creators?.[0]?.description || (w.culture || [])[0] || 'Cleveland Collection');
+          const body = `${w.description || ''} ${w.did_you_know || ''} ${w.technology ? 'Medium: ' + w.technology + '.' : ''}${w.creation_date ? ' Made ' + w.creation_date + '.' : ''}`;
+          const beatsRaw = Distiller.buildDynamicBeats({
+            kickerPrefix: 'CLEVELAND MUSEUM OF ART',
+            title,
+            subtitle: artist,
+            bodyText: body,
+            hasPhoto: true
+          });
+          SeenRegistry.mark(w.url, title);
+          return this.composeReel({
+            id: `cma-${w.id}`,
+            domain: 'ART', typo: 'typo-editorial', accent: '#fbbf24',
+            sourceUrl: w.url, title, verifiedPhoto, beatsRaw
+          });
+        }
+        return null;
+      },
+
+      // 25. PoetryDB: public-domain verse, shown a few lines per beat
+      async fromPoetry() {
+        const data = await this.getJSON('https://poetrydb.org/random/6');
+        for (const p of (Array.isArray(data) ? data : [])) {
+          const lines = (p.lines || []).map(l => String(l).trim()).filter(Boolean);
+          if (!p.title || lines.length < 4 || lines.length > 24) continue;
+          const title = Distiller.clean(p.title);
+          const author = Distiller.clean(p.author || 'Unknown');
+          const sourceUrl = `https://en.wikipedia.org/w/index.php?search=${encodeURIComponent(`${title} ${author} poem`)}`;
+          if (SeenRegistry.has(sourceUrl, `${author}-${title}`)) continue;
+          const beatsRaw = [{ kicker: `VERSE // ${author.toUpperCase()}`, lines: [title], attachPhoto: false }];
+          for (let i = 0; i < lines.length && beatsRaw.length < 8; i += 4) {
+            beatsRaw.push({ kicker: `VERSE // ${String(beatsRaw.length + 1).padStart(2, '0')}`, lines: lines.slice(i, i + 4), attachPhoto: false });
+          }
+          SeenRegistry.mark(sourceUrl, `${author}-${title}`);
+          return this.composeReel({
+            id: `verse-${author}-${title}`.slice(0, 80),
+            domain: 'VERSE', typo: 'typo-verse', accent: '#fde68a',
+            sourceUrl, title: `${title}: ${author}`, verifiedPhoto: null, beatsRaw
+          });
+        }
+        return null;
+      },
+
+      // 26. Open Library: books people are reading today
+      async fromOpenLibrary() {
+        const data = await this.getJSON('https://openlibrary.org/trending/daily.json?limit=30');
+        for (const w of shuffle(data?.works || [])) {
+          const title = Distiller.clean(w.title);
+          const sourceUrl = `https://openlibrary.org${w.key}`;
+          if (!title || !w.key || SeenRegistry.has(sourceUrl, title)) continue;
+          const detail = await this.getJSON(`https://openlibrary.org${w.key}.json`);
+          let desc = typeof detail?.description === 'string' ? detail.description : (detail?.description?.value || '');
+          desc = desc.split('----------')[0].replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+          const verifiedPhoto = w.cover_i ? await this.verifyImage(`https://covers.openlibrary.org/b/id/${w.cover_i}-L.jpg`) : null;
+          const by = (w.author_name || []).slice(0, 2).join(' & ');
+          const beatsRaw = Distiller.buildDynamicBeats({
+            kickerPrefix: 'TRENDING BOOK',
+            title,
+            subtitle: `${by ? 'By ' + by + '. ' : ''}${w.first_publish_year ? 'First published in ' + w.first_publish_year + '.' : ''}`.trim(),
+            bodyText: desc,
+            hasPhoto: Boolean(verifiedPhoto)
+          });
+          SeenRegistry.mark(sourceUrl, title);
+          return this.composeReel({
+            id: `ol-${w.key}`,
+            domain: 'BOOKS', typo: 'typo-editorial', accent: '#93c5fd',
+            sourceUrl, title, verifiedPhoto, beatsRaw
+          });
+        }
+        return null;
+      },
+
+      // 27. DEV Community: top engineering write-ups of the week
+      async fromDevTo() {
+        const page = 1 + Math.floor(Math.random() * 3);
+        const data = await this.getJSON(`https://dev.to/api/articles?top=7&per_page=25&page=${page}`);
+        for (const a of shuffle(Array.isArray(data) ? data : [])) {
+          const url = a.canonical_url || a.url;
+          const title = Distiller.clean(a.title);
+          if (!url || !title || (a.positive_reactions_count || 0) < 40 || SeenRegistry.has(url, title)) continue;
+          const verifiedPhoto = await this.verifyImage(a.cover_image);
+          const beatsRaw = Distiller.buildDynamicBeats({
+            kickerPrefix: 'DEV DISPATCH',
+            title,
+            subtitle: `${a.user?.name ? 'By ' + a.user.name + '. ' : ''}${a.reading_time_minutes || 1} minute read.`,
+            bodyText: a.description || '',
+            hasPhoto: Boolean(verifiedPhoto)
+          });
+          SeenRegistry.mark(url, title);
+          return this.composeReel({
+            id: `dev-${a.id}`,
+            domain: 'TECH', typo: 'typo-display', accent: '#34d399',
+            sourceUrl: url, title, verifiedPhoto, beatsRaw
+          });
+        }
+        return null;
+      },
+
+      // 28. Tech / AI / business news via RSS (parsed to JSON by rss2json, which allows browser CORS)
+      RSS_FEEDS: [
+        // AI research + labs
+        { id: 'hfblog', name: 'HUGGING FACE BLOG', url: 'https://huggingface.co/blog/feed.xml', domain: 'AI', accent: '#facc15' },
+        { id: 'gresearch', name: 'GOOGLE RESEARCH', url: 'https://research.google/blog/rss/', domain: 'AI', accent: '#60a5fa' },
+        { id: 'bair', name: 'BERKELEY AI RESEARCH', url: 'https://bair.berkeley.edu/blog/feed.xml', domain: 'AI', accent: '#fbbf24' },
+        { id: 'gradient', name: 'THE GRADIENT', url: 'https://thegradient.pub/rss/', domain: 'AI', accent: '#c4b5fd' },
+        { id: 'openai', name: 'OPENAI NEWS', url: 'https://openai.com/news/rss.xml', domain: 'AI', accent: '#a7f3d0' },
+        { id: 'mittr', name: 'MIT TECHNOLOGY REVIEW', url: 'https://www.technologyreview.com/feed/', domain: 'AI', accent: '#a78bfa' },
+        // science + engineering
+        { id: 'quanta', name: 'QUANTA MAGAZINE', url: 'https://www.quantamagazine.org/feed/', domain: 'SCIENCE', accent: '#c084fc' },
+        { id: 'nature', name: 'NATURE', url: 'https://www.nature.com/nature.rss', domain: 'SCIENCE', accent: '#34d399' },
+        { id: 'ieee', name: 'IEEE SPECTRUM', url: 'https://spectrum.ieee.org/feeds/feed.rss', domain: 'TECH', accent: '#38bdf8' },
+        { id: 'ars', name: 'ARS TECHNICA', url: 'https://feeds.arstechnica.com/arstechnica/index', domain: 'TECH', accent: '#fb923c' },
+        // history, ideas, culture, art
+        { id: 'aeon', name: 'AEON', url: 'https://aeon.co/feed.rss', domain: 'CULTURE', accent: '#f0abfc' },
+        { id: 'smithsonian', name: 'SMITHSONIAN MAGAZINE', url: 'https://www.smithsonianmag.com/rss/latest_articles/', domain: 'CULTURE', accent: '#fcd34d' },
+        { id: 'openculture', name: 'OPEN CULTURE', url: 'https://www.openculture.com/feed', domain: 'CULTURE', accent: '#fda4af' },
+        { id: 'pdr', name: 'THE PUBLIC DOMAIN REVIEW', url: 'https://publicdomainreview.org/rss.xml', domain: 'HISTORY', accent: '#d6b88a' },
+        { id: 'jstor', name: 'JSTOR DAILY', url: 'https://daily.jstor.org/feed/', domain: 'HISTORY', accent: '#fb7185' },
+        { id: 'hyper', name: 'HYPERALLERGIC', url: 'https://hyperallergic.com/feed/', domain: 'ART', accent: '#f472b6' }
+      ],
+
+      async fromRSS(feed) {
+        const data = await this.getJSON(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`, 7500);
+        if (data?.status !== 'ok') return null;
+        for (const it of shuffle(data.items || []).slice(0, 8)) {
+          const sourceUrl = safeUrl(it.link);
+          const title = Distiller.clean(it.title);
+          if (!sourceUrl || !title || SeenRegistry.has(sourceUrl, title)) continue;
+          const html = `${it.content || ''} ${it.description || ''}`;
+          const imgGuess = it.thumbnail || (/^image\//.test(it.enclosure?.type || '') ? it.enclosure.link : '') || (html.match(/<img[^>]+src=["']([^"']+)["']/i) || [])[1] || '';
+          const verifiedPhoto = await this.verifyImage(safeUrl(imgGuess));
+          let body = Distiller.clean(it.description) || Distiller.clean(it.content);
+          body = body.replace(/The post .{0,200} appeared first on .{0,120}\.?/i, '').replace(/\bRead more\b.*$/i, '').slice(0, 1100);
+          const beatsRaw = Distiller.buildDynamicBeats({
+            kickerPrefix: feed.name,
+            title,
+            subtitle: it.author && it.author.length < 40 ? `By ${Distiller.clean(it.author)}.` : '',
+            bodyText: body,
+            hasPhoto: Boolean(verifiedPhoto)
+          });
+          SeenRegistry.mark(sourceUrl, title);
+          return this.composeReel({
+            id: `rss-${feed.id}-${Math.random().toString(36).slice(2, 8)}`,
+            domain: feed.domain, typo: 'typo-display', accent: feed.accent,
+            sourceUrl, title, verifiedPhoto, beatsRaw
+          });
+        }
+        return null;
+      },
+
+      // 29. Hugging Face Daily Papers: community-curated AI research
+      async fromHFPapers() {
+        const data = await this.getJSON('https://huggingface.co/api/daily_papers?limit=30');
+        for (const item of shuffle(Array.isArray(data) ? data : [])) {
+          const p = item.paper || item;
+          const title = Distiller.clean(item.title || p.title);
+          if (!p?.id || !title) continue;
+          const sourceUrl = `https://huggingface.co/papers/${p.id}`;
+          if (SeenRegistry.has(sourceUrl, title)) continue;
+          const names = (p.authors || []).slice(0, 3).map(a => a.name).filter(Boolean).join(', ');
+          const ups = p.upvotes ?? item.upvotes;
+          const beatsRaw = Distiller.buildDynamicBeats({
+            kickerPrefix: 'AI RESEARCH // HF DAILY PAPERS',
+            title,
+            subtitle: `${ups ? ups + ' researcher upvotes. ' : ''}${names ? 'By ' + names + (p.authors.length > 3 ? ' and colleagues' : '') + '.' : ''}`.trim(),
+            bodyText: p.summary || '',
+            hasPhoto: false
+          });
+          SeenRegistry.mark(sourceUrl, title);
+          return this.composeReel({
+            id: `hfp-${p.id}`,
+            domain: 'AI', typo: 'typo-editorial', accent: '#c4b5fd',
+            sourceUrl, title, verifiedPhoto: null, beatsRaw
+          });
+        }
+        return null;
+      },
+
+      // 30. Hugging Face trending models
+      async fromHFModels() {
+        const data = await this.getJSON('https://huggingface.co/api/models?sort=trendingScore&limit=30');
+        for (const m of shuffle(Array.isArray(data) ? data : [])) {
+          const id = m.id || m.modelId;
+          if (!id) continue;
+          const sourceUrl = `https://huggingface.co/${id}`;
+          const day = new Date().toISOString().slice(0, 10);
+          if (SeenRegistry.has(sourceUrl, `${id}-${day}`)) continue;
+          const task = (m.pipeline_tag || 'general-purpose').replace(/-/g, ' ');
+          SeenRegistry.mark(sourceUrl, `${id}-${day}`);
+          return this.composeReel({
+            id: `hfm-${id}`,
+            domain: 'AI', typo: 'typo-telemetry', accent: '#ddd6fe',
+            sourceUrl,
+            title: `${id} is trending on Hugging Face`,
+            verifiedPhoto: null,
+            beatsRaw: [{
+              kicker: 'AI MODELS // TRENDING',
+              lines: [
+                `${id} is trending on Hugging Face.`,
+                `Task: ${task}. ${Number(m.downloads || 0).toLocaleString()} downloads and ${Number(m.likes || 0).toLocaleString()} likes${m.library_name ? ', built with ' + m.library_name : ''}.`
+              ]
+            }]
+          });
+        }
+        return null;
+      },
+
+      // 31. GitHub: fast-rising AI open-source repositories
+      async fromGitHubAI() {
+        const topics = ['llm', 'ai-agents', 'machine-learning', 'rag', 'generative-ai', 'deep-learning', 'mcp'];
+        const topic = topics[Math.floor(Math.random() * topics.length)];
+        const since = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+        const data = await this.getJSON(`https://api.github.com/search/repositories?q=topic:${topic}+created:%3E${since}&sort=stars&order=desc&per_page=15`);
+        for (const r of shuffle(data?.items || [])) {
+          const sourceUrl = safeUrl(r.html_url);
+          const title = Distiller.clean(r.full_name);
+          if (!sourceUrl || SeenRegistry.has(sourceUrl, title)) continue;
+          const beatsRaw = Distiller.buildDynamicBeats({
+            kickerPrefix: `OPEN SOURCE // ${topic.toUpperCase()}`,
+            title,
+            subtitle: `${Number(r.stargazers_count).toLocaleString()} stars in under a month.`,
+            bodyText: `${r.description || ''} ${r.language ? 'Written mostly in ' + r.language + '.' : ''}`,
+            hasPhoto: false
+          });
+          SeenRegistry.mark(sourceUrl, title);
+          return this.composeReel({
+            id: `gh-${r.id}`,
+            domain: 'AI', typo: 'typo-display', accent: '#a5b4fc',
+            sourceUrl, title, verifiedPhoto: null, beatsRaw
+          });
+        }
+        return null;
+      },
+
+      // 32. Hacker News (Algolia) targeted searches: AI labs, chips, startups, funding
+      async fromHNSearch() {
+        const qs = [
+          ['LLM', 'AI'], ['OpenAI', 'AI'], ['Anthropic Claude', 'AI'], ['AI agents', 'AI'], ['machine learning', 'AI'],
+          ['Nvidia', 'BUSINESS'], ['startup funding', 'BUSINESS'], ['acquisition', 'BUSINESS'], ['semiconductor', 'BUSINESS'], ['cloud', 'TECH']
+        ];
+        const [q, domain] = qs[Math.floor(Math.random() * qs.length)];
+        const data = await this.getJSON(`https://hn.algolia.com/api/v1/search_by_date?tags=story&query=${encodeURIComponent(q)}&numericFilters=${encodeURIComponent('points>100')}&hitsPerPage=20`);
+        for (const h of shuffle(data?.hits || [])) {
+          const title = Distiller.clean(h.title);
+          const sourceUrl = safeUrl(h.url) || `https://news.ycombinator.com/item?id=${h.objectID}`;
+          if (!title || SeenRegistry.has(sourceUrl, title)) continue;
+          let host = 'Hacker News';
+          try { host = new URL(sourceUrl).hostname.replace('www.', ''); } catch {}
+          const beatsRaw = Distiller.buildDynamicBeats({
+            kickerPrefix: `HN // ${q.toUpperCase()}`,
+            title,
+            bodyText: `From ${host}. It collected ${h.points || 0} points and ${h.num_comments || 0} comments on Hacker News.`,
+            hasPhoto: false
+          });
+          SeenRegistry.mark(sourceUrl, title);
+          return this.composeReel({
+            id: `hnq-${h.objectID}`,
+            domain, typo: 'typo-display', accent: domain === 'AI' ? '#a78bfa' : '#fbbf24',
+            sourceUrl, title, verifiedPhoto: null, beatsRaw
+          });
+        }
+        return null;
+      },
+
+      // 33. arXiv economics, finance and society preprints
+      async fromArxivBusiness() {
+        const cats = ['econ.GN', 'q-fin.GN', 'cs.CY', 'q-fin.CP', 'econ.TH'];
+        const cat = cats[Math.floor(Math.random() * cats.length)];
+        const start = Math.floor(Math.random() * 40);
+        const xmlText = await this.getText(`https://export.arxiv.org/api/query?search_query=cat:${cat}&sortBy=submittedDate&sortOrder=descending&start=${start}&max_results=4`);
+        if (!xmlText) return null;
+        const doc = new DOMParser().parseFromString(xmlText, 'text/xml');
+        for (const entry of Array.from(doc.querySelectorAll('entry'))) {
+          const title = Distiller.clean(entry.querySelector('title')?.textContent);
+          const summary = Distiller.clean(entry.querySelector('summary')?.textContent);
+          const sourceUrl = entry.querySelector('id')?.textContent?.trim();
+          if (!title || !sourceUrl || SeenRegistry.has(sourceUrl, title)) continue;
+          const beatsRaw = Distiller.buildDynamicBeats({
+            kickerPrefix: `BUSINESS RESEARCH // ${cat.toUpperCase()}`,
+            title, bodyText: summary, hasPhoto: false
+          });
+          SeenRegistry.mark(sourceUrl, title);
+          return this.composeReel({
+            id: `arxiv-biz-${Date.now()}-${Math.random().toString(36).slice(2, 5)}`,
+            domain: 'BUSINESS', typo: 'typo-editorial', accent: '#fbbf24',
+            sourceUrl, title, verifiedPhoto: null, beatsRaw
+          });
+        }
+        return null;
+      },
+
+      // 34. Wellcome Collection: history of medicine, science and ideas (open images)
+      async fromWellcome() {
+        const topics = ['anatomy', 'botany', 'astronomy', 'alchemy', 'manuscript', 'map', 'instrument', 'microscope', 'natural history', 'engraving'];
+        const q = topics[Math.floor(Math.random() * topics.length)];
+        const page = 1 + Math.floor(Math.random() * 6);
+        const data = await this.getJSON(`https://api.wellcomecollection.org/catalogue/v2/images?query=${encodeURIComponent(q)}&pageSize=20&page=${page}`);
+        for (const im of shuffle(data?.results || [])) {
+          const wid = im.source?.id;
+          const title = Distiller.clean(im.source?.title);
+          const thumb = im.thumbnail?.url;
+          if (!wid || !title || !thumb) continue;
+          const sourceUrl = `https://wellcomecollection.org/works/${wid}`;
+          if (SeenRegistry.has(sourceUrl, title)) continue;
+          const verifiedPhoto = await this.verifyImage(thumb);
+          if (!verifiedPhoto) continue;
+          const work = await this.getJSON(`https://api.wellcomecollection.org/catalogue/v2/works/${wid}?include=contributors,production`);
+          const who = (work?.contributors || []).map(c => c.agent?.label).filter(Boolean).slice(0, 2).join(' & ');
+          const date = work?.production?.[0]?.dates?.[0]?.label;
+          const body = `${Distiller.clean(work?.description || '')} ${date ? 'Dated ' + date + '.' : ''} ${work?.physicalDescription ? Distiller.clean(work.physicalDescription) + '.' : ''}`;
+          const beatsRaw = Distiller.buildDynamicBeats({
+            kickerPrefix: `WELLCOME COLLECTION // ${q.toUpperCase()}`,
+            title,
+            subtitle: who,
+            bodyText: body,
+            hasPhoto: true
+          });
+          SeenRegistry.mark(sourceUrl, title);
+          return this.composeReel({
+            id: `wellcome-${wid}`,
+            domain: 'HISTORY', typo: 'typo-editorial', accent: '#fb7185',
+            sourceUrl, title, verifiedPhoto, beatsRaw
+          });
+        }
+        return null;
+      },
+
+      // 35. Nobel Prize laureates: who, when, and for what
+      async fromNobel() {
+        const offset = Math.floor(Math.random() * 950);
+        const data = await this.getJSON(`https://api.nobelprize.org/2.1/laureates?offset=${offset}&limit=10`);
+        for (const l of shuffle(data?.laureates || [])) {
+          const name = Distiller.clean(l.knownName?.en || l.fullName?.en);
+          const prize = l.nobelPrizes?.[0];
+          if (!name || !prize?.motivation?.en) continue;
+          const sourceUrl = safeUrl(l.wikipedia?.english) || 'https://www.nobelprize.org/prizes/';
+          if (SeenRegistry.has(`nobel:${l.id}`, name)) continue;
+          const cat = prize.category?.en || 'Science';
+          const motive = Distiller.clean(prize.motivation.en).replace(/^["“]|["”]$/g, '');
+          const born = l.birth?.date && !/^0000/.test(l.birth.date) ? `Born in ${String(l.birth.date).slice(0, 4)}${l.birth?.place?.locationString?.en ? ' in ' + Distiller.clean(l.birth.place.locationString.en) : ''}.` : '';
+          const aff = prize.affiliations?.[0]?.name?.en ? `At the time of the award: ${Distiller.clean(prize.affiliations[0].name.en)}.` : '';
+          const beatsRaw = Distiller.buildDynamicBeats({
+            kickerPrefix: `NOBEL // ${cat.toUpperCase()} ${prize.awardYear}`,
+            title: name,
+            subtitle: `Awarded the ${prize.awardYear} Nobel Prize in ${cat} ${motive.replace(/\.$/, '')}.`,
+            bodyText: `${born} ${aff}`,
+            hasPhoto: false
+          });
+          SeenRegistry.mark(`nobel:${l.id}`, name);
+          return this.composeReel({
+            id: `nobel-${l.id}`,
+            domain: 'SCIENCE', typo: 'typo-editorial', accent: '#fcd34d',
+            sourceUrl, title: name, verifiedPhoto: null, beatsRaw
+          });
+        }
+        return null;
+      },
+
+      composeReel({ id, domain, typo, accent, sourceUrl, title, verifiedPhoto, beatsRaw }) {
+        const beats = beatsRaw
+          .map(b => {
+            const cleanLines = (b.lines || [])
+              .map(l => Distiller.clean(l))
+              .filter(Boolean);
+            const hasPhoto = Boolean(b.attachPhoto && verifiedPhoto);
+            const hasVisual = Boolean(hasPhoto || b.mapData || b.chartData || b.flightData || b.atmoData);
+            return {
+              kicker: b.kicker,
+              lines: cleanLines.length ? cleanLines : [Distiller.clean(title)],
+              hasPhoto,
+              hasVisual,
+              mapData: b.mapData || null,
+              chartData: b.chartData || null,
+              flightData: b.flightData || null,
+              atmoData: b.atmoData || null,
+              ms: Distiller.computeBeatDurationMs(cleanLines, hasVisual)
+            };
+          })
+          .filter(b => b.lines.length > 0);
+
+        return {
+          id,
+          domain,
+          typo,
+          accent,
+          sourceUrl: safeUrl(sourceUrl),
+          title,
+          verifiedPhoto,
+          beats
+        };
+      }
+    };
+
+    /* =========================================================================
+       5B. GEOSPATIAL EARTHQUAKE MAP, MARKET CHART, FLIGHT RADAR & ATMOSPHERE
+       ========================================================================= */
+    const VisualBuilders = {
+      mapMosaic(lat, lon) {
+        const zoom = 4, n = 16;
+        const la = Math.max(-85, Math.min(85, lat));
+        const xF = ((lon + 180) / 360) * n;
+        const r = (la * Math.PI) / 180;
+        const yF = ((1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2) * n;
+        const cx = Math.floor(xF), cy = Math.floor(yF);
+        let tiles = '';
+        for (let dy = -1; dy <= 1; dy++) {
+          for (let dx = -1; dx <= 1; dx++) {
+            const tx = (((cx + dx) % n) + n) % n;
+            const ty = cy + dy;
+            tiles += (ty < 0 || ty >= n)
+              ? '<span></span>'
+              : `<img src="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/${zoom}/${ty}/${tx}" alt="" onerror="this.style.opacity='0'" />`;
+          }
+        }
+        const px = (1 + xF - cx) * 256, py = (1 + yF - cy) * 256;
+        return `<div class="quake-mosaic" style="transform:translate(${(-px).toFixed(1)}px,${(-py).toFixed(1)}px)">${tiles}</div>`;
+      },
+
+      mapCaption(left, right, accent) {
+        return `<div style="position:absolute;bottom:10px;left:12px;right:12px;display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;color:var(--ink-soft);background:rgba(5,5,7,0.78);padding:5px 9px;border-radius:4px;border:1px solid var(--hairline);"><span>${esc(left)}</span><span style="color:${accent};">${esc(right)}</span></div>`;
+      },
+
+      buildQuakeMapHTML(m, accent) {
+        const { lat, lon, mag, depthKm } = m;
+        const hasMag = Number.isFinite(mag);
+        const ring = m.ring || (hasMag ? Math.round(Math.max(40, Math.min(140, 36 + (mag - 4) * 28))) : 60);
+        const dur = m.dur || (hasMag ? Math.max(1.1, 3 - (mag - 4) * 0.6) : 2.4);
+        const left = m.captionL || (hasMag ? `M ${mag.toFixed(1)} EPICENTER` : 'LOCATION');
+        const right = m.captionR || (Number.isFinite(depthKm) ? `DEPTH ${depthKm.toFixed(1)} KM` : '');
+        return `<div class="data-viz-card map-card"><div class="quake-map-wrap">${this.mapMosaic(lat, lon)}<div class="map-pin" style="--ring:${ring}px;--dur:${Number(dur).toFixed(2)}s"><b></b><i></i></div>${this.mapCaption(left, right, accent)}</div></div>`;
+      },
+
+      buildMarketChartHTML(chartData, accentIn) {
+        const accent = chartData.color || (chartData.deltaPct >= 0 ? '#4ade80' : '#fb7185');
+        const { symbol, priceFormatted, deltaPct, series, rangeLabel } = chartData;
+        const min = Math.min(...series);
+        const max = Math.max(...series);
+        const span = max - min || 1;
+        const w = 400;
+        const h = 130;
+
+        const pts = series.map((val, i) => {
+          const x = (i / (series.length - 1)) * w;
+          const y = h - 12 - ((val - min) / span) * (h - 24);
+          return `${x.toFixed(1)},${y.toFixed(1)}`;
+        });
+
+        const linePath = `M ${pts.join(' L ')}`;
+        const areaPath = `${linePath} L ${w},${h} L 0,${h} Z`;
+        const gradId = `grad_${Math.random().toString(36).slice(2, 8)}`;
+        const sign = deltaPct >= 0 ? '+' : '';
+
+        return `
+          <div class="data-viz-card">
+            <div class="market-card-inner">
+              <div class="market-head">
+                <div>
+                  <div style="font-size:10px;letter-spacing:0.18em;color:var(--ink-dim);margin-bottom:4px;">${esc(symbol)}</div>
+                  <div class="market-price">${priceFormatted}</div>
+                </div>
+                <div class="market-delta" style="color:${accent};">${chartData.deltaText ? esc(chartData.deltaText) : `${deltaPct >= 0 ? '▲' : '▼'} ${sign}${deltaPct.toFixed(2)}%`}</div>
+              </div>
+              <svg class="market-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="${accent}" stop-opacity="0.32" />
+                    <stop offset="100%" stop-color="${accent}" stop-opacity="0.0" />
+                  </linearGradient>
+                </defs>
+                <path d="${areaPath}" fill="url(#${gradId})" />
+                <path d="${linePath}" fill="none" stroke="${accent}" stroke-width="2.2" />
+              </svg>
+              <div class="market-foot">
+                <span>LOW ${min >= 1 ? min.toLocaleString(undefined, { maximumFractionDigits: 2 }) : min.toFixed(4)}</span>
+                <span>${rangeLabel}</span>
+                <span>HIGH ${max >= 1 ? max.toLocaleString(undefined, { maximumFractionDigits: 2 }) : max.toFixed(4)}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      },
+
+      buildFlightMapHTML({ callsign, lat, lon, altMeters, speedKmh, heading }, accent) {
+        const plane = `<svg viewBox="-6 -6 12 12" style="transform:rotate(${Number(heading) || 0}deg)"><polygon points="0,-5 3.4,4 0,2 -3.4,4"/></svg>`;
+        return `<div class="data-viz-card map-card"><div class="quake-map-wrap">${this.mapMosaic(lat, lon)}<div class="map-pin"><b></b>${plane}</div>${this.mapCaption(`${callsign} • ${altMeters.toLocaleString()}M`, `${speedKmh} KM/H • HDG ${heading}°`, accent)}</div></div>`;
+      },
+
+      buildAtmosphereCardHTML(atmoData, accent) {
+        const a = parseFloat(atmoData.aqi);
+        const [aqiColor, aqiWord] = isNaN(a) ? [accent, ''] : a <= 20 ? ['#4ade80', 'GOOD'] : a <= 40 ? ['#a3e635', 'FAIR'] : a <= 60 ? ['#facc15', 'MODERATE'] : a <= 80 ? ['#fb923c', 'POOR'] : ['#f87171', 'VERY POOR'];
+        return `
+          <div class="data-viz-card">
+            <div class="telemetry-card">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;font-family:var(--font-mono);">
+                <div>
+                  <div style="font-size:10px;letter-spacing:0.18em;color:var(--ink-dim);margin-bottom:4px;">ATMOSPHERE NODE</div>
+                  <div style="font-size:clamp(22px,3.4vw,32px);color:var(--ink);">${atmoData.temp}</div>
+                </div>
+                <div style="font-size:11px;color:${aqiColor};letter-spacing:0.14em;">AQI ${atmoData.aqi} ${aqiWord}</div>
+              </div>
+              <div class="telemetry-grid">
+                <div>
+                  <div class="tele-cell-label">WIND</div>
+                  <div class="tele-cell-val">${atmoData.wind}</div>
+                </div>
+                <div>
+                  <div class="tele-cell-label">PRESSURE</div>
+                  <div class="tele-cell-val">${atmoData.pressure}</div>
+                </div>
+                <div>
+                  <div class="tele-cell-label">PM2.5 / UV</div>
+                  <div class="tele-cell-val">${atmoData.pm25} • ${atmoData.uv}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    };
+
+    /* =========================================================================
+       6. ON-DEVICE MULTI-ARMED BANDIT RECOMMENDATION & EVOLUTION ENGINE
+       ========================================================================= */
+    const Recommender = {
+      weights: {
+        AI: 1.6,
+        TECH: 1.4,
+        SCIENCE: 1.4,
+        BUSINESS: 1.1,
+        COSMOS: 1.2,
+        EARTH: 1.0,
+        ART: 1.3,
+        HISTORY: 1.3,
+        CULTURE: 1.3,
+        ARCHIVE: 1.0,
+        BOOKS: 1.1,
+        VERSE: 1.0
+      },
+      disabled: new Set(),
+      likedSet: new Set(),
+      savedReels: [],
+      interactions: 0,
+
+      rewardDomain(domain, delta) {
+        if (this.weights[domain] !== undefined) {
+          this.weights[domain] = Math.max(0.15, Math.min(3.2, this.weights[domain] + delta));
+        }
+        this.syncEvolutionUI();
+      },
+
+      rankBatch(reels) {
+        return reels
+          .map(r => ({
+            reel: r,
+            score: (this.weights[r.domain] || 1.0) + Math.random() * 0.65 + Quality.richness(r)
+          }))
+          .sort((a, b) => b.score - a.score)
+          .map(x => x.reel);
+      },
+
+      syncEvolutionUI() {
+        this.interactions++;
+        let stage = '1';
+        let roman = 'I';
+        if (this.interactions >= 18) { stage = '4'; roman = 'IV'; }
+        else if (this.interactions >= 10) { stage = '3'; roman = 'III'; }
+        else if (this.interactions >= 4) { stage = '2'; roman = 'II'; }
+        document.body.setAttribute('data-evo', stage);
+        const evoLabel = document.getElementById('evo-label');
+        if (evoLabel) evoLabel.textContent = roman;
+        this.save();
+      },
+
+      renderDrawer() {
+        const barsEl = document.getElementById('bandit-bars');
+        const entries = Object.entries(this.weights).sort((a, b) => b[1] - a[1]);
+        barsEl.innerHTML = entries.map(([dom, val]) => {
+          const pct = Math.round((val / 3.2) * 100);
+          return `
+            <div class="bandit-row">
+              <div class="bandit-meta"><span>${dom}</span><span>${val.toFixed(2)}</span></div>
+              <div class="bandit-track"><div class="bandit-fill" style="width:${pct}%"></div></div>
+            </div>
+          `;
+        }).join('');
+
+        const chipsEl = document.getElementById('source-chips');
+        if (chipsEl) {
+          chipsEl.innerHTML = Object.keys(this.weights).map(dom =>
+            `<button type="button" class="hud-btn chip${this.disabled.has(dom) ? ' off' : ' active'}" data-domain="${dom}" aria-pressed="${!this.disabled.has(dom)}">${dom}</button>`
+          ).join('');
+        }
+
+        const presetEl = document.getElementById('preset-chips');
+        if (presetEl) {
+          const all = Object.keys(this.weights);
+          presetEl.innerHTML = Object.entries(this.PRESETS).map(([name, keep]) => {
+            const want = keep ? all.filter(k => !keep.includes(k)) : [];
+            const on = want.length === this.disabled.size && want.every(k => this.disabled.has(k));
+            return `<button type="button" class="hud-btn chip${on ? ' active' : ''}" data-preset="${name}">${name}</button>`;
+          }).join('');
+        }
+
+        const savedEl = document.getElementById('saved-list');
+        if (!this.savedReels.length) {
+          savedEl.innerHTML = `<div style="font-family:var(--font-mono);font-size:10px;color:var(--ink-dim);letter-spacing:0.14em;">DOUBLE-TAP ANY PIECE TO RESONATE</div>`;
+          return;
+        }
+        savedEl.innerHTML = this.savedReels.map(r => `
+          <div class="saved-card" tabindex="0" role="link" data-url="${esc(safeUrl(r.sourceUrl))}">
+            <div style="font-family:var(--font-mono);font-size:9px;color:var(--accent);letter-spacing:0.18em;margin-bottom:5px;">${r.domain} ↗</div>
+            <div style="font-size:13px;line-height:1.4;color:var(--ink);">${esc(r.title)}</div>
+          </div>
+        `).join('');
+      }
+    };
+
+    Recommender.PRESETS = {
+      ALL: null,
+      RESEARCH: ['AI', 'SCIENCE', 'COSMOS', 'EARTH', 'BUSINESS'],
+      TECH: ['AI', 'TECH', 'BUSINESS'],
+      CULTURE: ['ART', 'VERSE', 'BOOKS', 'CULTURE', 'HISTORY', 'ARCHIVE']
+    };
+    Recommender.KEY = 'SCTHRA_prefs_v1';
+    Recommender.load = function () {
+      try {
+        const p = JSON.parse(localStorage.getItem(this.KEY) || '{}');
+        for (const k in (p.weights || {})) {
+          if (k in this.weights && Number.isFinite(p.weights[k])) this.weights[k] = Math.max(0.15, Math.min(3.2, p.weights[k]));
+        }
+        if (Array.isArray(p.saved)) {
+          this.savedReels = p.saved.filter(r => r && r.id && safeUrl(r.sourceUrl));
+          this.likedSet = new Set(this.savedReels.map(r => r.id));
+        }
+        if (Array.isArray(p.disabled)) this.disabled = new Set(p.disabled.filter(k => k in this.weights));
+        this.interactions = Math.max(0, (p.interactions || 0) - 1);
+        this.syncEvolutionUI();
+      } catch {}
+    };
+    Recommender.save = function () {
+      try {
+        localStorage.setItem(this.KEY, JSON.stringify({
+          weights: this.weights,
+          interactions: this.interactions,
+          disabled: [...this.disabled],
+          saved: this.savedReels.slice(0, 50).map(r => ({ id: r.id, domain: r.domain, title: r.title, sourceUrl: r.sourceUrl }))
+        }));
+      } catch {}
+    };
+
+    /* =========================================================================
+       7. STREAM CONTROLLER & STAGGERED LINE-BY-LINE RENDERING
+       ========================================================================= */
+    const State = {
+      reels: [],
+      activeReel: 0,
+      activeBeat: 0,
+      beatElapsed: 0,
+      lineTimers: [],
+      paused: false,
+      fetching: false,
+      userPaused: false
+    };
+
+    const streamEl = document.getElementById('stream');
+    const sentinelEl = document.getElementById('buffer-sentinel');
+    const progressEl = document.getElementById('top-progress');
+    const edgeGlowEl = document.getElementById('source-edge-glow');
+    const actionRailEl = document.getElementById('swipe-action-rail');
+    const railOpenDomainEl = document.getElementById('rail-open-domain');
+    const toastEl = document.getElementById('action-toast');
+
+    let toastTimer = null;
+    function showToast(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2100);
+    }
+
+    function appendReel(reel) {
+      if (!reel || State.reels.some(r => r.id === reel.id) || Recommender.disabled.has(reel.domain)) return;
+      const idx = State.reels.length;
+      State.reels.push(reel);
+
+      const accentHex = reel.accent || '#e2b857';
+      const section = document.createElement('section');
+      section.className = 'reel';
+      section.dataset.index = idx;
+      section.style.setProperty('--accent', accentHex);
+      section.style.setProperty('--reel-tint', hexToRgba(accentHex, 0.065));
+      section.innerHTML = `<div class="stage ${reel.typo}"></div>`;
+
+      streamEl.insertBefore(section, sentinelEl);
+
+      if (idx === 0) {
+        activateReel(0);
+      }
+    }
+
+    function hexToRgba(hex, alpha) {
+      const clean = String(hex || '#e2b857').replace('#', '');
+      const full = clean.length === 3
+        ? clean.split('').map(c => c + c).join('')
+        : clean.padEnd(6, '0');
+      const num = parseInt(full, 16);
+      const r = (num >> 16) & 255;
+      const g = (num >> 8) & 255;
+      const b = num & 255;
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+
+    function syncThemeAccent(hex) {
+      const accent = hex || '#e2b857';
+      const root = document.documentElement.style;
+      root.setProperty('--accent', accent);
+      root.setProperty('--accent-soft', hexToRgba(accent, 0.16));
+      root.setProperty('--accent-mid', hexToRgba(accent, 0.38));
+      root.setProperty('--accent-glow', hexToRgba(accent, 0.28));
+    }
+
+    function clearLineTimers() {
+      State.lineTimers.forEach(t => clearTimeout(t));
+      State.lineTimers = [];
+    }
+
+    function activateReel(index) {
+      if (index < 0 || index >= State.reels.length) return;
+      State.activeReel = index;
+      State.activeBeat = 0;
+      State.beatElapsed = 0;
+
+      const reel = State.reels[index];
+      streamEl.querySelectorAll('.reel.is-active').forEach(el => el.classList.remove('is-active'));
+      streamEl.querySelector(`.reel[data-index="${index}"]`)?.classList.add('is-active');
+      syncThemeAccent(reel.accent);
+      ContentAudio.tuneToReel(reel);
+      syncLikeHUD();
+      renderBeatWithStagger();
+
+      if (index >= State.reels.length - 4) {
+        harvestNextWave();
+      }
+    }
+
+    function renderProgressSegs(count) {
+      progressEl.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const seg = document.createElement('div');
+        seg.className = 'prog-seg' + (i < State.activeBeat ? ' done' : '');
+        seg.innerHTML = '<div class="prog-fill"></div>';
+        progressEl.appendChild(seg);
+      }
+    }
+
+    function renderBeatWithStagger() {
+      clearLineTimers();
+      const reel = State.reels[State.activeReel];
+      const section = streamEl.querySelector(`.reel[data-index="${State.activeReel}"]`);
+      if (!reel || !section) return;
+
+      const beat = reel.beats[State.activeBeat];
+      if (!beat) return;
+
+      renderProgressSegs(reel.beats.length);
+      const stage = section.querySelector('.stage');
+      stage.style.transform = '';
+
+      const showPhoto = Boolean(beat.hasPhoto && reel.verifiedPhoto);
+      const showMap = Boolean(beat.mapData);
+      const showChart = Boolean(beat.chartData);
+      const showFlight = Boolean(beat.flightData);
+      const showAtmo = Boolean(beat.atmoData);
+      const hasVisualCard = showPhoto || showMap || showChart || showFlight || showAtmo;
+
+      const linesHtml = beat.lines
+        .map((line, i) => `<div class="reveal-line" data-line="${i}">${reel.typo === 'typo-verse' ? esc(line) : Distiller.highlightKeywords(line)}</div>`)
+        .join('');
+
+      let bodyHtml = `<div class="lines-stack">${linesHtml}</div>`;
+      if (showPhoto) {
+        const pngClass = reel.verifiedPhoto.isPng ? ' is-png' : '';
+        const ar = (reel.verifiedPhoto.w || 1) / (reel.verifiedPhoto.h || 1);
+        const shape = ar > 1.6 ? 'ph-wide' : ar < 0.85 ? 'ph-tall' : 'ph-even';
+        bodyHtml = `
+          <div class="visual-beat-wrap has-photo ${shape}">
+            <div class="lines-stack">${linesHtml}</div>
+            <div class="photo-frame${pngClass}">
+              <img src="${esc(reel.verifiedPhoto.src)}" alt="" />
+            </div>
+          </div>
+        `;
+      } else if (showMap) {
+        bodyHtml = `
+          <div class="visual-beat-wrap has-photo">
+            <div class="lines-stack">${linesHtml}</div>
+            ${VisualBuilders.buildQuakeMapHTML(beat.mapData, reel.accent)}
+          </div>
+        `;
+      } else if (showChart) {
+        bodyHtml = `
+          <div class="visual-beat-wrap has-photo">
+            <div class="lines-stack">${linesHtml}</div>
+            ${VisualBuilders.buildMarketChartHTML(beat.chartData, reel.accent)}
+          </div>
+        `;
+      } else if (showFlight) {
+        bodyHtml = `
+          <div class="visual-beat-wrap has-photo">
+            <div class="lines-stack">${linesHtml}</div>
+            ${VisualBuilders.buildFlightMapHTML(beat.flightData, reel.accent)}
+          </div>
+        `;
+      } else if (showAtmo) {
+        bodyHtml = `
+          <div class="visual-beat-wrap has-photo">
+            <div class="lines-stack">${linesHtml}</div>
+            ${VisualBuilders.buildAtmosphereCardHTML(beat.atmoData, reel.accent)}
+          </div>
+        `;
+      }
+
+      const counterHtml = reel.beats.length > 1
+        ? `<span>${String(State.activeBeat + 1).padStart(2, '0')} / ${String(reel.beats.length).padStart(2, '0')}</span>`
+        : '';
+
+      let host = '';
+      try { host = new URL(reel.sourceUrl).hostname.replace('www.', ''); } catch {}
+      const lastBeat = State.activeBeat === reel.beats.length - 1;
+      const footHtml = host
+        ? `<div class="stage-foot"><span>${esc(host)}</span><span>${lastBeat ? 'SWIPE → OPEN' : ''}</span></div>`
+        : '';
+
+      stage.innerHTML = `
+        <div class="stage-kicker">
+          <span>${esc(beat.kicker)}</span>
+          ${counterHtml}
+        </div>
+        ${bodyHtml}
+        ${footHtml}
+      `;
+
+      const leadLen = (beat.lines[0] || '').length;
+      const leadScale = leadLen < 30 ? 1.35 : leadLen < 60 ? 1.15 : leadLen < 110 ? 1 : leadLen < 170 ? 0.88 : 0.76;
+      stage.style.setProperty('--lead-scale', (leadScale * (hasVisualCard ? 0.92 : 1)).toFixed(2));
+      fitStageToViewport(stage, hasVisualCard);
+      stage.querySelector('.photo-frame img')?.addEventListener('load', () => fitStageToViewport(stage, hasVisualCard), { once: true });
+
+      const visualEl = stage.querySelector('.photo-frame, .data-viz-card');
+      if (visualEl) {
+        requestAnimationFrame(() => visualEl.classList.add('shown'));
+      }
+
+      const lineEls = Array.from(stage.querySelectorAll('.reveal-line'));
+      lineEls.forEach((el, idx) => {
+        const timer = setTimeout(() => {
+          el.classList.add('shown');
+          ContentAudio.playLineNote(reel, beat.lines[idx], idx);
+        }, idx * 460);
+        State.lineTimers.push(timer);
+      });
+    }
+
+    function stepBeat(delta) {
+      const reel = State.reels[State.activeReel];
+      if (!reel) return;
+      const next = State.activeBeat + delta;
+      if (next < 0) {
+        State.activeBeat = 0;
+        State.beatElapsed = 0;
+        renderBeatWithStagger();
+      } else if (next >= reel.beats.length) {
+        const nextReel = State.activeReel + 1;
+        if (nextReel < State.reels.length) {
+          ContentAudio.playTransitionPulse(1);
+          streamEl.querySelector(`.reel[data-index="${nextReel}"]`)?.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          State.activeBeat = 0;
+          State.beatElapsed = 0;
+          renderBeatWithStagger();
+        }
+      } else {
+        ContentAudio.playTransitionPulse(delta);
+        State.activeBeat = next;
+        State.beatElapsed = 0;
+        renderBeatWithStagger();
+      }
+    }
+
+    function openSourceForActiveReel() {
+      const reel = State.reels[State.activeReel];
+      if (!reel?.sourceUrl) return;
+      Recommender.rewardDomain(reel.domain, 0.35);
+      window.open(reel.sourceUrl, '_blank', 'noopener,noreferrer');
+    }
+
+    // Shares the original source URL (not the generated card). navigator.share must run
+    // synchronously inside the user gesture on iOS, so no awaits before this call.
+    function shareSourceLink() {
+      const reel = State.reels[State.activeReel];
+      const url = reel?.sourceUrl;
+      if (!url) return;
+      Recommender.rewardDomain(reel.domain, 0.3);
+      if (navigator.share) {
+        navigator.share({ title: reel.title, url }).catch((err) => {
+          if (err?.name !== 'AbortError') copyTextFallback(url);
+        });
+      } else {
+        copyTextFallback(url);
+      }
+    }
+
+    async function copyTextFallback(text) {
+      try { await navigator.clipboard.writeText(text); showToast('SOURCE LINK COPIED'); return; } catch {}
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try {
+        document.execCommand('copy');
+        showToast('SOURCE LINK COPIED');
+      } catch {
+        showToast('COPY FAILED');
+      }
+      ta.remove();
+    }
+
+    /* =========================================================================
+       7B. SHARE CARD PNG GENERATOR (RENDERS ACTIVE SLIDE TO 1080x1350 PNG)
+       ========================================================================= */
+    const ShareCardBuilder = {
+      lastDataUrl: null,
+      lastBlob: null,
+      lastFilename: 'SCTHRA-card.png',
+
+      loadCorsImage(url, timeoutMs = 2400) {
+        return new Promise((resolve) => {
+          if (!url) return resolve(null);
+          const img = new Image();
+          img.crossOrigin = 'anonymous';
+          const timer = setTimeout(() => resolve(null), timeoutMs);
+          img.onload = () => {
+            clearTimeout(timer);
+            resolve(img.naturalWidth > 0 ? img : null);
+          };
+          img.onerror = () => {
+            clearTimeout(timer);
+            resolve(null);
+          };
+          img.src = url;
+        });
+      },
+
+      wrapText(ctx, text, maxWidth) {
+        const words = String(text || '').split(/\s+/);
+        const lines = [];
+        let current = '';
+        for (const word of words) {
+          const test = current ? `${current} ${word}` : word;
+          if (ctx.measureText(test).width > maxWidth && current) {
+            lines.push(current);
+            current = word;
+          } else {
+            current = test;
+          }
+        }
+        if (current) lines.push(current);
+        return lines;
+      },
+
+      async renderSlideToPNG(reel, beatIndex) {
+        const beat = reel.beats[beatIndex] || reel.beats[0];
+        try { await Promise.all(['500 22px "JetBrains Mono"', '400 52px "Instrument Serif"', '400 32px "Space Grotesk"'].map(f => document.fonts.load(f))); } catch {}
+        const W = 1080;
+        const H = 1350;
+        const pad = 76;
+        const accent = reel.accent || '#e2b857';
+
+        const canvas = document.createElement('canvas');
+        canvas.width = W;
+        canvas.height = H;
+        const ctx = canvas.getContext('2d');
+
+        // Background Gradient
+        const bgGrad = ctx.createRadialGradient(W * 0.5, H * 0.35, 60, W * 0.5, H * 0.5, H * 0.85);
+        bgGrad.addColorStop(0, '#12131a');
+        bgGrad.addColorStop(1, '#050507');
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, W, H);
+
+        // Editorial Border & Corner Brackets
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(36, 36, W - 72, H - 72);
+
+        const bLen = 36;
+        ctx.strokeStyle = accent;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(36, 36 + bLen); ctx.lineTo(36, 36); ctx.lineTo(36 + bLen, 36);
+        ctx.moveTo(W - 36 - bLen, 36); ctx.lineTo(W - 36, 36); ctx.lineTo(W - 36, 36 + bLen);
+        ctx.moveTo(36, H - 36 - bLen); ctx.lineTo(36, H - 36); ctx.lineTo(36 + bLen, H - 36);
+        ctx.moveTo(W - 36 - bLen, H - 36); ctx.lineTo(W - 36, H - 36); ctx.lineTo(W - 36, H - 36 - bLen);
+        ctx.stroke();
+
+        // Top Header: SCTHRA & Slide Counter
+        ctx.fillStyle = '#f3f2ee';
+        ctx.font = '500 22px "JetBrains Mono", monospace';
+        ctx.fillText('SCTHRA', pad, 108);
+
+        ctx.fillStyle = accent;
+        ctx.font = '500 20px "JetBrains Mono", monospace';
+        const slideTag = reel.beats.length > 1
+          ? `${String(beatIndex + 1).padStart(2, '0')} / ${String(reel.beats.length).padStart(2, '0')}`
+          : reel.domain;
+        const tagW = ctx.measureText(slideTag).width;
+        ctx.fillText(slideTag, W - pad - tagW, 108);
+
+        // Kicker
+        let cursorY = 186;
+        ctx.fillStyle = accent;
+        ctx.font = '500 21px "JetBrains Mono", monospace';
+        ctx.fillText((beat.kicker || reel.domain).toUpperCase(), pad, cursorY);
+        cursorY += 54;
+
+        // Optional CORS-Safe Photo or Data Visualization
+        let corsImg = null;
+        if (beat.hasPhoto && reel.verifiedPhoto?.src) {
+          corsImg = await this.loadCorsImage(reel.verifiedPhoto.src);
+        }
+
+        const innerW = W - pad * 2;
+        const maxBottomY = H - 150;
+
+        if (corsImg) {
+          const boxH = 430;
+          ctx.fillStyle = reel.verifiedPhoto.isPng ? '#ffffff' : '#0c0d12';
+          ctx.fillRect(pad, cursorY, innerW, boxH);
+          ctx.strokeStyle = 'rgba(255,255,255,0.14)';
+          ctx.lineWidth = 1.5;
+          ctx.strokeRect(pad, cursorY, innerW, boxH);
+
+          const scale = Math.min((innerW - 24) / corsImg.naturalWidth, (boxH - 24) / corsImg.naturalHeight);
+          const dw = corsImg.naturalWidth * scale;
+          const dh = corsImg.naturalHeight * scale;
+          ctx.drawImage(corsImg, pad + (innerW - dw) / 2, cursorY + (boxH - dh) / 2, dw, dh);
+          cursorY += boxH + 48;
+        } else if (beat.chartData) {
+          const boxH = 290;
+          ctx.fillStyle = 'rgba(15, 16, 22, 0.92)';
+          ctx.fillRect(pad, cursorY, innerW, boxH);
+          ctx.strokeStyle = 'rgba(255,255,255,0.14)';
+          ctx.strokeRect(pad, cursorY, innerW, boxH);
+
+          const { symbol, priceFormatted, deltaPct, series } = beat.chartData;
+          ctx.fillStyle = 'rgba(243,242,238,0.5)';
+          ctx.font = '500 18px "JetBrains Mono", monospace';
+          ctx.fillText(symbol, pad + 28, cursorY + 42);
+
+          ctx.fillStyle = '#f3f2ee';
+          ctx.font = '600 36px "JetBrains Mono", monospace';
+          ctx.fillText(priceFormatted, pad + 28, cursorY + 86);
+
+          const sign = deltaPct >= 0 ? '+' : '';
+          const deltaTxt = beat.chartData.deltaText || `${sign}${deltaPct.toFixed(2)}%`;
+          ctx.fillStyle = accent;
+          ctx.font = '500 22px "JetBrains Mono", monospace';
+          ctx.fillText(deltaTxt, W - pad - 28 - ctx.measureText(deltaTxt).width, cursorY + 84);
+
+          const min = Math.min(...series);
+          const max = Math.max(...series);
+          const span = max - min || 1;
+          const gx = pad + 28;
+          const gy = cursorY + 115;
+          const gw = innerW - 56;
+          const gh = 140;
+
+          ctx.beginPath();
+          series.forEach((v, i) => {
+            const x = gx + (i / (series.length - 1)) * gw;
+            const y = gy + gh - ((v - min) / span) * gh;
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          });
+          ctx.strokeStyle = accent;
+          ctx.lineWidth = 4;
+          ctx.stroke();
+          cursorY += boxH + 46;
+        } else if (beat.mapData || beat.flightData || beat.atmoData) {
+          const boxH = 170;
+          ctx.fillStyle = 'rgba(15, 16, 22, 0.92)';
+          ctx.fillRect(pad, cursorY, innerW, boxH);
+          ctx.strokeStyle = 'rgba(255,255,255,0.14)';
+          ctx.strokeRect(pad, cursorY, innerW, boxH);
+
+          ctx.fillStyle = accent;
+          ctx.font = '500 20px "JetBrains Mono", monospace';
+          if (beat.mapData) {
+            const mp = beat.mapData;
+            const quake = Number.isFinite(mp.mag);
+            ctx.fillText(quake ? `M ${mp.mag.toFixed(1)} SEISMIC EPICENTER` : String(mp.captionL || 'LOCATION'), pad + 28, cursorY + 56);
+            ctx.fillStyle = '#f3f2ee';
+            ctx.fillText(`LAT ${mp.lat.toFixed(3)}°  ·  LON ${mp.lon.toFixed(3)}°` + (Number.isFinite(mp.depthKm) ? `  ·  DEPTH ${mp.depthKm.toFixed(1)} KM` : (mp.captionR ? `  ·  ${mp.captionR}` : '')), pad + 28, cursorY + 112);
+          } else if (beat.flightData) {
+            ctx.fillText(`TRANSPONDER ${beat.flightData.callsign}  ·  HDG ${beat.flightData.heading}°`, pad + 28, cursorY + 56);
+            ctx.fillStyle = '#f3f2ee';
+            ctx.fillText(`ALT ${beat.flightData.altMeters.toLocaleString()} M  ·  VEL ${beat.flightData.speedKmh} KM/H`, pad + 28, cursorY + 112);
+          } else if (beat.atmoData) {
+            ctx.fillText(`${beat.atmoData.city.toUpperCase()} BIOSPHERE  ·  AQI ${beat.atmoData.aqi}`, pad + 28, cursorY + 56);
+            ctx.fillStyle = '#f3f2ee';
+            ctx.fillText(`${beat.atmoData.temp}  ·  WIND ${beat.atmoData.wind}  ·  ${beat.atmoData.pressure}`, pad + 28, cursorY + 112);
+          }
+          cursorY += boxH + 46;
+        }
+
+        // Dynamic Typography Fit for Slide Lines
+        let scaleFactor = 1.0;
+        const lines = beat.lines || [reel.title];
+
+        const measureTotalHeight = (sf) => {
+          let total = 0;
+          lines.forEach((line, idx) => {
+            const isLead = idx === 0;
+            const fontSize = Math.round((isLead ? 52 : 32) * sf);
+            const lineHeight = Math.round(fontSize * 1.28);
+            ctx.font = isLead
+              ? `400 ${fontSize}px "Instrument Serif", Georgia, serif`
+              : `400 ${fontSize}px "Space Grotesk", sans-serif`;
+            const wrapped = this.wrapText(ctx, line, innerW);
+            total += wrapped.length * lineHeight + Math.round(24 * sf);
+          });
+          return total;
+        };
+
+        while (cursorY + measureTotalHeight(scaleFactor) > maxBottomY && scaleFactor > 0.52) {
+          scaleFactor -= 0.04;
+        }
+
+        lines.forEach((line, idx) => {
+          const isLead = idx === 0;
+          const fontSize = Math.round((isLead ? 52 : 32) * scaleFactor);
+          const lineHeight = Math.round(fontSize * 1.28);
+          ctx.font = isLead
+            ? `400 ${fontSize}px "Instrument Serif", Georgia, serif`
+            : `400 ${fontSize}px "Space Grotesk", sans-serif`;
+          ctx.fillStyle = isLead ? '#f3f2ee' : 'rgba(243, 242, 238, 0.82)';
+
+          const wrapped = this.wrapText(ctx, line, innerW);
+          for (const wLine of wrapped) {
+            if (cursorY + lineHeight > maxBottomY) break;
+            ctx.fillText(wLine, pad, cursorY + fontSize * 0.85);
+            cursorY += lineHeight;
+          }
+          cursorY += Math.round(24 * scaleFactor);
+        });
+
+        // Bottom Attribution Bar
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(pad, H - 114);
+        ctx.lineTo(W - pad, H - 114);
+        ctx.stroke();
+
+        let host = 'LIVE ARCHIVE';
+        try {
+          host = new URL(reel.sourceUrl).hostname.replace('www.', '').toUpperCase();
+        } catch {}
+
+        ctx.fillStyle = 'rgba(243, 242, 238, 0.5)';
+        ctx.font = '500 18px "JetBrains Mono", monospace';
+        ctx.fillText(`SOURCE // ${host}`, pad, H - 72);
+
+        const sig = new Date().toISOString().slice(0, 10);
+        const sigW = ctx.measureText(sig).width;
+        ctx.fillText(sig, W - pad - sigW, H - 72);
+
+        const dataUrl = canvas.toDataURL('image/png');
+        const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+        const slug = (reel.domain || 'card').toLowerCase();
+        this.lastDataUrl = dataUrl;
+        this.lastBlob = blob;
+        this.lastFilename = `SCTHRA-${slug}-${Date.now().toString(36)}.png`;
+        return dataUrl;
+      }
+    };
+
+    const shareModal = document.getElementById('share-modal');
+    const sharePreviewImg = document.getElementById('share-card-preview');
+
+    async function openShareCardModal() {
+      const reel = State.reels[State.activeReel];
+      if (!reel) return;
+      Recommender.rewardDomain(reel.domain, 0.3);
+      const dataUrl = await ShareCardBuilder.renderSlideToPNG(reel, State.activeBeat);
+      sharePreviewImg.src = dataUrl;
+      shareModal.classList.add('open');
+      document.getElementById('btn-download-png').focus();
+    }
+
+    function closeShareCardModal() {
+      shareModal.classList.remove('open');
+    }
+
+    function downloadShareCardPNG() {
+      if (!ShareCardBuilder.lastDataUrl) return;
+      const a = document.createElement('a');
+      a.href = ShareCardBuilder.lastDataUrl;
+      a.download = ShareCardBuilder.lastFilename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast('PNG CARD DOWNLOADED');
+    }
+
+    async function triggerNativeOrCopyShare() {
+      const reel = State.reels[State.activeReel];
+      if (!reel) return;
+      if (navigator.share && ShareCardBuilder.lastBlob) {
+        try {
+          const file = new File([ShareCardBuilder.lastBlob], ShareCardBuilder.lastFilename, { type: 'image/png' });
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({ title: reel.title, url: reel.sourceUrl, files: [file] });
+            return;
+          }
+          await navigator.share({ title: reel.title, url: reel.sourceUrl });
+          return;
+        } catch {}
+      }
+      downloadShareCardPNG();
+    }
+
+    function dismissDomainAndAdvance() {
+      const reel = State.reels[State.activeReel];
+      if (!reel) return;
+      const mutedDomain = reel.domain;
+      Recommender.rewardDomain(mutedDomain, -0.65);
+
+      for (let i = State.reels.length - 1; i > State.activeReel; i--) {
+        if (State.reels[i].domain === mutedDomain && !Recommender.likedSet.has(State.reels[i].id)) {
+          State.reels.splice(i, 1);
+          const el = streamEl.querySelector(`.reel[data-index="${i}"]`);
+          if (el) el.remove();
+        }
+      }
+      Array.from(streamEl.querySelectorAll('.reel')).forEach((el, idx) => {
+        el.dataset.index = idx;
+      });
+
+      showToast(`LESS FROM ${mutedDomain}`);
+      const nextReel = State.activeReel + 1;
+      if (nextReel < State.reels.length) {
+        streamEl.querySelector(`.reel[data-index="${nextReel}"]`)?.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        harvestNextWave().then(() => {
+          const target = streamEl.querySelector(`.reel[data-index="${State.activeReel + 1}"]`);
+          if (target) target.scrollIntoView({ behavior: 'smooth' });
+        });
+      }
+    }
+
+    function pruneDomainAhead(domain) {
+      for (let i = State.reels.length - 1; i > State.activeReel; i--) {
+        if (State.reels[i].domain === domain && !Recommender.likedSet.has(State.reels[i].id)) {
+          State.reels.splice(i, 1);
+          streamEl.querySelector(`.reel[data-index="${i}"]`)?.remove();
+        }
+      }
+      Array.from(streamEl.querySelectorAll('.reel')).forEach((el, idx) => { el.dataset.index = idx; });
+    }
+
+    function toggleResonance(x, y) {
+      const ring = document.createElement('div');
+      ring.className = 'resonance-pulse';
+      ring.style.left = (x || window.innerWidth / 2) + 'px';
+      ring.style.top = (y || window.innerHeight / 2) + 'px';
+      document.body.appendChild(ring);
+      setTimeout(() => ring.remove(), 700);
+
+      const reel = State.reels[State.activeReel];
+      if (!reel) return;
+
+      if (Recommender.likedSet.has(reel.id)) {
+        Recommender.likedSet.delete(reel.id);
+        Recommender.savedReels = Recommender.savedReels.filter(r => r.id !== reel.id);
+        Recommender.save();
+      } else {
+        Recommender.likedSet.add(reel.id);
+        Recommender.savedReels.unshift(reel);
+        Recommender.rewardDomain(reel.domain, 0.35);
+      }
+      syncLikeHUD();
+    }
+
+    function syncLikeHUD() {
+      const reel = State.reels[State.activeReel];
+      const liked = reel && Recommender.likedSet.has(reel.id);
+      const btn = document.getElementById('btn-like');
+      const heart = document.getElementById('like-heart');
+      btn.classList.toggle('liked', Boolean(liked));
+      heart.textContent = liked ? '♥' : '♡';
+    }
+
+    /* =========================================================================
+       8. GESTURES: HOLD-TO-PAUSE (RESUMES ON RELEASE) + 3-WAY SWIPE-RIGHT RAIL
+       ========================================================================= */
+    let downAt = 0;
+    let downX = 0;
+    let downY = 0;
+    let holdTimer = null;
+    let lastTapAt = 0;
+    let tapTimer = null;
+    let pullingSource = false;
+    let swipeMode = 'open';
+
+    function releaseHoldPause() {
+      clearTimeout(holdTimer);
+      holdTimer = null;
+      if (State.paused) {
+        State.paused = false;
+        document.body.classList.remove('reading-paused');
+      }
+    }
+
+    function resetSourcePull(animate = true) {
+      pullingSource = false;
+      swipeMode = 'open';
+      edgeGlowEl.style.opacity = '0';
+      actionRailEl.classList.remove('visible');
+      actionRailEl.style.transform = 'translateY(-50%) translateX(-130%)';
+      const activeSection = streamEl.querySelector(`.reel[data-index="${State.activeReel}"]`);
+      const stage = activeSection?.querySelector('.stage');
+      if (stage) {
+        stage.style.transition = animate ? 'transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)' : 'none';
+        stage.style.transform = 'translate3d(0, 0, 0) scale(1)';
+      }
+    }
+
+    streamEl.addEventListener('pointerdown', (e) => {
+      ContentAudio.unlock();
+      if (e.target.closest('button')) return;
+
+      downAt = performance.now();
+      downX = e.clientX;
+      downY = e.clientY;
+      pullingSource = false;
+      swipeMode = 'open';
+
+      holdTimer = setTimeout(() => {
+        State.paused = true;
+        document.body.classList.add('reading-paused');
+      }, 170);
+    });
+
+    // iOS Safari: once a horizontal pull has begun, stop the browser from claiming the touch for scrolling
+    streamEl.addEventListener('touchmove', (e) => { if (pullingSource) e.preventDefault(); }, { passive: false });
+    // iOS only unlocks Web Audio on touchend/click, not pointerdown
+    ['touchend', 'click'].forEach(t => window.addEventListener(t, () => ContentAudio.unlock(), { passive: true }));
+
+    streamEl.addEventListener('pointermove', (e) => {
+      if (!downAt) return;
+      const dx = e.clientX - downX;
+      const dy = e.clientY - downY;
+
+      if (Math.abs(dx) > 12 || Math.abs(dy) > 12) {
+        releaseHoldPause();
+      }
+
+      const reel = State.reels[State.activeReel];
+      const onLastBeat = reel && State.activeBeat === reel.beats.length - 1;
+
+      if (pullingSource || (Math.abs(dx) > 20 && Math.abs(dx) > Math.abs(dy) * 1.1 && (dx > 0 || onLastBeat))) {
+        pullingSource = true;
+        const absDx = Math.abs(dx);
+        const progress = Math.min(1, absDx / 105);
+        const dampedX = Math.pow(absDx, 0.78) * 2.2;
+
+        // Vertical branching while holding right: Up = Share, Center = Open, Down = Not Interested
+        let nextMode = 'open';
+        if (dy < -42) nextMode = 'share';
+        else if (dy > 42) nextMode = 'mute';
+        swipeMode = nextMode;
+
+        try {
+          railOpenDomainEl.textContent = 'OPEN ' + new URL(reel.sourceUrl).hostname.replace('www.', '').toUpperCase();
+        } catch {
+          railOpenDomainEl.textContent = 'OPEN SOURCE';
+        }
+
+        edgeGlowEl.style.opacity = String(progress);
+        actionRailEl.classList.add('visible');
+        actionRailEl.style.transform = `translateY(-50%) translateX(${((progress - 1) * 115).toFixed(1)}%)`;
+
+        actionRailEl.querySelectorAll('.rail-node').forEach(node => {
+          node.classList.toggle('selected', node.dataset.mode === swipeMode);
+        });
+
+        const activeSection = streamEl.querySelector(`.reel[data-index="${State.activeReel}"]`);
+        const stage = activeSection?.querySelector('.stage');
+        if (stage) {
+          const dir = dx >= 0 ? 1 : -1;
+          const nudgeY = swipeMode === 'share' ? -14 : swipeMode === 'mute' ? 14 : 0;
+          stage.style.transition = 'none';
+          stage.style.transform = `translate3d(${(dir * dampedX * 0.55).toFixed(1)}px, ${nudgeY}px, 0) scale(${(1 - progress * 0.025).toFixed(4)})`;
+        }
+      }
+    });
+
+    streamEl.addEventListener('pointerup', (e) => {
+      const wasPaused = State.paused;
+      releaseHoldPause();
+
+      if (!downAt) return;
+      const dx = e.clientX - downX;
+      const dy = e.clientY - downY;
+      const dt = performance.now() - downAt;
+      downAt = 0;
+
+      const reel = State.reels[State.activeReel];
+      const onLastBeat = reel && State.activeBeat === reel.beats.length - 1;
+
+      if (pullingSource) {
+        const triggered = dx > 86 || (onLastBeat && dx < -86);
+        const chosenMode = swipeMode;
+        resetSourcePull(true);
+        if (triggered) {
+          if (chosenMode === 'mute') dismissDomainAndAdvance();
+          else if (chosenMode === 'share') shareSourceLink();
+          else openSourceForActiveReel();
+        }
+        return;
+      }
+
+      if (wasPaused || dt > 260 || Math.abs(dx) > 16 || Math.abs(dy) > 16) {
+        return;
+      }
+
+      const now = performance.now();
+      if (tapTimer && now - lastTapAt < 260) {
+        clearTimeout(tapTimer);
+        tapTimer = null;
+        lastTapAt = 0;
+        toggleResonance(e.clientX, e.clientY);
+        return;
+      }
+      lastTapAt = now;
+      const back = e.clientX < window.innerWidth * 0.3;
+      tapTimer = setTimeout(() => { tapTimer = null; stepBeat(back ? -1 : 1); }, 220);
+    });
+
+    window.addEventListener('pointercancel', () => {
+      downAt = 0;
+      releaseHoldPause();
+      resetSourcePull(true);
+    });
+    window.addEventListener('blur', () => {
+      downAt = 0;
+      releaseHoldPause();
+      resetSourcePull(true);
+    });
+    window.addEventListener('contextmenu', (e) => e.preventDefault());
+
+    // Vertical Scroll-Snap Detection
+    let scrollTimer = null;
+    streamEl.addEventListener('scroll', () => {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        const idx = Math.round(streamEl.scrollTop / streamEl.clientHeight);
+        if (idx !== State.activeReel && idx >= 0 && idx < State.reels.length) {
+          const prev = State.reels[State.activeReel];
+          if (prev && State.activeBeat >= 1) {
+            Recommender.rewardDomain(prev.domain, 0.12);
+          }
+          activateReel(idx);
+        }
+      }, 60);
+    });
+
+    // Keyboard Controls
+    window.addEventListener('keydown', (e) => {
+      ContentAudio.unlock();
+      if (e.key === 'ArrowRight') {
+        const reel = State.reels[State.activeReel];
+        if (reel && State.activeBeat === reel.beats.length - 1) {
+          openSourceForActiveReel();
+        } else {
+          stepBeat(1);
+        }
+      } else if (e.key === 'ArrowLeft') {
+        stepBeat(-1);
+      } else if (e.key === 'ArrowDown') {
+        const next = Math.min(State.reels.length - 1, State.activeReel + 1);
+        streamEl.querySelector(`.reel[data-index="${next}"]`)?.scrollIntoView({ behavior: 'smooth' });
+      } else if (e.key === 'ArrowUp') {
+        const prev = Math.max(0, State.activeReel - 1);
+        streamEl.querySelector(`.reel[data-index="${prev}"]`)?.scrollIntoView({ behavior: 'smooth' });
+      } else if (e.key.toLowerCase() === 'm') {
+        ContentAudio.toggle();
+      } else if (e.key.toLowerCase() === 'l') {
+        toggleResonance();
+      } else if (e.key.toLowerCase() === 's') {
+        openShareCardModal();
+      } else if (e.key === ' ' && !e.target.closest('button, .saved-card')) {
+        e.preventDefault();
+        State.userPaused = !State.userPaused;
+        document.body.classList.toggle('reading-paused', State.userPaused);
+        showToast(State.userPaused ? 'PAUSED' : 'PLAYING');
+      } else if (e.key === 'Escape') {
+        closeDrawer();
+        closeShareCardModal();
+      }
+    });
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+      const section = streamEl.querySelector(`.reel[data-index="${State.activeReel}"]`);
+      const reel = State.reels[State.activeReel];
+      if (section && reel) {
+        const beat = reel.beats[State.activeBeat];
+        const hasVisual = Boolean((beat?.hasPhoto && reel.verifiedPhoto) || beat?.mapData || beat?.chartData || beat?.flightData || beat?.atmoData);
+        fitStageToViewport(section.querySelector('.stage'), hasVisual);
+      }
+      }, 120);
+    });
+
+    // HUD & Affinity Drawer Wiring
+    const drawer = document.getElementById('affinity-drawer');
+    const overlay = document.getElementById('drawer-overlay');
+
+    function openDrawer() {
+      Recommender.renderDrawer();
+      overlay.classList.add('open');
+      drawer.classList.add('open');
+    }
+
+    function closeDrawer() {
+      overlay.classList.remove('open');
+      drawer.classList.remove('open');
+    }
+
+    document.getElementById('btn-sound').addEventListener('click', (e) => {
+      e.stopPropagation();
+      ContentAudio.toggle();
+    });
+
+    document.getElementById('btn-share-card').addEventListener('click', (e) => {
+      e.stopPropagation();
+      openShareCardModal();
+    });
+
+    document.getElementById('btn-download-png').addEventListener('click', downloadShareCardPNG);
+    document.getElementById('btn-native-share').addEventListener('click', triggerNativeOrCopyShare);
+    document.getElementById('btn-copy-source').addEventListener('click', () => {
+      const reel = State.reels[State.activeReel];
+      if (!reel?.sourceUrl) return;
+      copyTextFallback(reel.sourceUrl);
+    });
+    document.getElementById('btn-close-share').addEventListener('click', closeShareCardModal);
+    shareModal.addEventListener('click', (e) => {
+      if (e.target === shareModal) closeShareCardModal();
+    });
+
+    document.getElementById('btn-like').addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleResonance(window.innerWidth - 78, 28);
+    });
+
+    document.getElementById('btn-affinity').addEventListener('click', (e) => {
+      e.stopPropagation();
+      openDrawer();
+    });
+
+    document.getElementById('btn-close-drawer').addEventListener('click', closeDrawer);
+    document.getElementById('preset-chips').addEventListener('click', (e) => {
+      const b = e.target.closest('[data-preset]');
+      if (!b) return;
+      const keep = Recommender.PRESETS[b.dataset.preset];
+      Recommender.disabled = new Set(keep ? Object.keys(Recommender.weights).filter(k => !keep.includes(k)) : []);
+      Recommender.disabled.forEach(d => pruneDomainAhead(d));
+      Recommender.save();
+      Recommender.renderDrawer();
+      showToast(`FOCUS: ${b.dataset.preset}`);
+      if (State.reels.length - State.activeReel <= 4) harvestNextWave();
+    });
+    const goReel = (d) => {
+      const n = Math.max(0, Math.min(State.reels.length - 1, State.activeReel + d));
+      streamEl.querySelector(`.reel[data-index="${n}"]`)?.scrollIntoView({ behavior: 'smooth' });
+    };
+    document.getElementById('nav-up').addEventListener('click', () => goReel(-1));
+    document.getElementById('nav-down').addEventListener('click', () => goReel(1));
+    document.getElementById('source-chips').addEventListener('click', (e) => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
+      const dom = chip.dataset.domain;
+      const enabledCount = Object.keys(Recommender.weights).length - Recommender.disabled.size;
+      if (Recommender.disabled.has(dom)) {
+        Recommender.disabled.delete(dom);
+      } else if (enabledCount > 1) {
+        Recommender.disabled.add(dom);
+        pruneDomainAhead(dom);
+        showToast(`${dom} OFF`);
+      } else {
+        showToast('KEEP AT LEAST ONE SOURCE ON');
+      }
+      Recommender.save();
+      Recommender.renderDrawer();
+    });
+    overlay.addEventListener('click', closeDrawer);
+
+    document.fonts?.ready.then(() => {
+      const st = streamEl.querySelector(`.reel[data-index="${State.activeReel}"] .stage`);
+      if (st) fitStageToViewport(st, true);
+    });
+    document.addEventListener('visibilitychange', () => {
+      const c = ContentAudio.ctx;
+      if (!c) return;
+      if (document.hidden) c.suspend().catch(() => {});
+      else if (ContentAudio.enabled) c.resume().catch(() => {});
+    });
+    const savedListEl = document.getElementById('saved-list');
+    const openSaved = (el) => { const u = el?.dataset.url; if (u) window.open(u, '_blank', 'noopener,noreferrer'); };
+    savedListEl.addEventListener('click', (e) => openSaved(e.target.closest('.saved-card')));
+    savedListEl.addEventListener('keydown', (e) => {
+      if ((e.key === 'Enter' || e.key === ' ') && e.target.closest('.saved-card')) { e.preventDefault(); openSaved(e.target.closest('.saved-card')); }
+    });
+
+    /* =========================================================================
+       9. BEAT TIMER LOOP
+       ========================================================================= */
+    let lastFrame = performance.now();
+
+    function animate(now) {
+      const dt = Math.min(now - lastFrame, 100);
+      lastFrame = now;
+
+      const active = State.reels[State.activeReel];
+      if (active && !State.paused && !State.userPaused && !document.hidden && !drawer.classList.contains('open') && !shareModal.classList.contains('open')) {
+        const beat = active.beats[State.activeBeat];
+        const duration = beat?.ms || 4200;
+        State.beatElapsed += dt;
+
+        const fill = progressEl.children[State.activeBeat]?.firstChild;
+        if (fill) {
+          fill.style.width = Math.min(100, (State.beatElapsed / duration) * 100) + '%';
+        }
+
+        if (State.beatElapsed >= duration) {
+          stepBeat(1);
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    /* =========================================================================
+       10. PROGRESSIVE STREAMING HARVEST & BOOT
+       ========================================================================= */
+    const bootEl = document.getElementById('boot-screen');
+    let bootDismissed = false;
+
+    function dismissBootScreen() {
+      if (bootDismissed) return;
+      bootDismissed = true;
+      bootEl.classList.add('hidden');
+      const whisper = document.getElementById('gesture-whisper');
+      if (whisper && !localStorage.getItem('SCTHRA_whisper_seen')) {
+        whisper.classList.add('show');
+        const hideWhisper = () => {
+          whisper.classList.remove('show');
+          localStorage.setItem('SCTHRA_whisper_seen', '1');
+        };
+        setTimeout(hideWhisper, 4200);
+        window.addEventListener('pointerdown', hideWhisper, { once: true });
+      }
+    }
+
+    async function harvestNextWave() {
+      if (State.fetching) return;
+      State.fetching = true;
+      try {
+        // Retry with fresh source picks if a wave yields nothing (rate limits, dedupe, offline blips)
+        for (let attempt = 0; attempt < 3; attempt++) {
+          const incoming = [];
+          let flushed = false;
+          const flush = () => {
+            if (!incoming.length) return;
+            Recommender.rankBatch(incoming.splice(0)).forEach(r => appendReel(r));
+          };
+          // Don't hold finished reels hostage to the slowest API: release the buffer after 3.5s
+          const timer = setTimeout(() => { flushed = true; flush(); }, 3500);
+          const produced = await LiveWebIngestor.streamWave((reel) => {
+            if (State.reels.length < 3) {
+              appendReel(reel);
+              dismissBootScreen();
+            } else if (flushed) {
+              appendReel(reel);
+            } else {
+              incoming.push(reel);
+            }
+          }, attempt === 0 ? 10 : 12);
+          clearTimeout(timer);
+          flush();
+          if (produced > 0) break;
+          await new Promise(r => setTimeout(r, 700 * (attempt + 1)));
+        }
+      } finally {
+        State.fetching = false;
+        dismissBootScreen();
+      }
+    }
+
+    (async function boot() {
+      SeenRegistry.init();
+      Recommender.load();
+      requestAnimationFrame(animate);
+      await harvestNextWave();
+      if (!State.reels.length) showEmptyState();
+    })();
+
+    function showEmptyState() {
+      const el = document.createElement('div');
+      el.style.cssText = 'position:fixed;inset:0;z-index:70;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;color:var(--ink-dim);text-align:center;padding:24px';
+      el.innerHTML = '<div>NO LIVE FEEDS REACHABLE. CHECK YOUR CONNECTION.</div><button class="hud-btn primary-pill" type="button">RETRY</button>';
+      document.body.appendChild(el);
+      el.querySelector('button').addEventListener('click', async () => {
+        el.remove();
+        showToast('RETRYING FEEDS');
+        await harvestNextWave();
+        if (!State.reels.length) showEmptyState();
+      });
+    }
+  </script>
+</body>
+</html>
